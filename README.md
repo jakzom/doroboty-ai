@@ -38,7 +38,20 @@ In a fresh scenario, select Karolina Wiśniewska and open [the fictional I02 app
 
 Enable the optional chat by setting `I02_OPENAI_API_KEY` in the server environment or a gitignored `.env.local`, then restart `npm run dev`. The default model is `gpt-5-mini`; `I02_OPENAI_MODEL` can select another model that supports structured outputs. See the [official OpenAI documentation](https://developers.openai.com/api/docs/guides/structured-outputs?api-mode=responses).
 
-With a key configured, submitting a new application starts analysis in the background. The employer can read the saved explanation and ask follow-up questions. Older applications are queued when the employer first opens them. The prepared I02 example uses its curated sources. Analysis and chat share the submitted answer, CV and role context with OpenAI. Chat also sends the question and up to three recent exchanges. Use synthetic materials and questions only. Source reading, recruiter notes and other prototype flows work in the static build and without a key. Static builds do not contact the I02 endpoints. Local AI requests time out after 50 seconds in the browser. A failed analysis can be retried, and a failed chat keeps the question and note.
+With a key configured, submitting a new application starts analysis in the background. The employer can read the saved explanation and ask follow-up questions. Older applications are queued when the employer first opens them. The prepared I02 example uses its curated sources. Analysis and chat share the submitted answer, CV and role context with OpenAI. Chat also sends the question and up to three recent exchanges. Use synthetic materials and questions only. Source reading, recruiter notes and other prototype flows work in the static build and without a key. Portable static builds do not contact the I02 endpoints. AI requests time out after 50 seconds in the browser. A failed analysis can be retried, and a failed chat keeps the question and note.
+
+### Optional public Vercel AI
+
+Portable builds remain offline by default. To enable hosted AI, deploy `api/i02` with the Vite application and set these server-side Vercel variables before rebuilding:
+
+- `I02_HOSTED_AI=enabled` enables same-origin requests in the hosted frontend; it contains no credential.
+- `I02_OPENAI_API_KEY` is a Secret used only by the server functions. `I02_OPENAI_MODEL` is optional.
+- `I02_SITE_ORIGIN` is the exact HTTPS origin of the stable production URL. The deployment's own `VERCEL_URL` is also accepted for verification.
+- `I02_RATE_LIMIT_READY=enabled` must be set only after verifying the active WAF request limit.
+
+The hosted service is public and requires no additional code. Configure a Vercel WAF fixed-window rule matching only POST `/api/i02/chat` and `/api/i02/analysis`: 10 requests per 600 seconds, counted by IP, returning HTTP 429. Chat and analysis share the quota. Vercel tracks counters per region; users behind the same public IP share a bucket. The quota survives separate function instances but is not a global provider spending cap. GET availability probes do not consume it. On HTTP 429 the chat preserves the question and recruiter note and permits deliberate retry.
+
+Keep credentials in server-only Vercel Secret variables, never `VITE_*`, frontend code or Git. Missing provider/quota configuration fails closed. The functions preserve the local adapter's source restrictions, validation and deadlines.
 
 ## Build and verify
 
@@ -48,7 +61,7 @@ npm run preview
 ./scripts/verify
 ```
 
-The static output is dist/. Browser checks require an already provisioned Playwright Chromium; starting the app never installs it. If Google Chrome is already installed, `PLAYWRIGHT_CHANNEL=chrome ./scripts/verify` runs the same gate with that channel. Browser checks cover the static build and local development, with the provider key disabled and I02 responses mocked. See [participant guide](docs/PARTICIPANT_GUIDE.md), [architecture](docs/architecture.md), [current features](FEATURES.md) and [case protocol](docs/case/CASE_PROTOCOL.md).
+The static output is dist/. Browser checks require an already provisioned Playwright Chromium; starting the app never installs it. If Google Chrome is already installed, `PLAYWRIGHT_CHANNEL=chrome ./scripts/verify` runs the same gate with that channel. Browser checks cover portable static, local development and explicitly enabled hosted builds, with provider keys disabled and I02 responses mocked. See [participant guide](docs/PARTICIPANT_GUIDE.md), [architecture](docs/architecture.md), [current features](FEATURES.md) and [case protocol](docs/case/CASE_PROTOCOL.md).
 
 The development tools use typescript-eslint8.73+ and a narrowly scoped npm override: @ts-morph/common0.27.0 uses minimatch11.0.9+ while shadcn4 still depends on ts-morph26. Keep this override until that parent adopts a patched minimatch range; recheck it when updating shadcn/ts-morph. Other minimatch versions are not globally overridden. Node24 meets the updated tool requirements.
 

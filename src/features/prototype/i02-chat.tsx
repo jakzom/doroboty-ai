@@ -39,7 +39,7 @@ export function I02Chat({
   headingId: string;
 }) {
   const [availability, setAvailability] = useState<"checking" | "ready" | "unavailable">(
-    import.meta.env.I02_LOCAL_DEV === "enabled" ? "checking" : "unavailable",
+    import.meta.env.I02_API_ENABLED === "enabled" ? "checking" : "unavailable",
   );
   const [turns, setTurns] = useState<I02ChatTurn[]>([]);
   const [pending, setPending] = useState(false);
@@ -106,6 +106,12 @@ export function I02Chat({
         return;
       }
       if (!response.ok) {
+        if (response.status === 429) {
+          setError(
+            "Osiągnięto limit zapytań AI. Spróbuj ponownie za kilka minut. Twoje pytanie zostało zachowane.",
+          );
+          return;
+        }
         if (response.status === 503) setAvailability("unavailable");
         throw new Error("Chat request failed");
       }

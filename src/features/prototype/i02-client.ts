@@ -1,6 +1,6 @@
-// Keep the optional local provider unavailable in every static build.
+// Portable static builds stay offline; hosted builds explicitly enable same-origin APIs.
 export async function fetchI02Json(path: string, options: RequestInit, signal: AbortSignal) {
-  if (import.meta.env.I02_LOCAL_DEV !== "enabled") return null;
+  if (import.meta.env.I02_API_ENABLED !== "enabled") return null;
   signal.throwIfAborted();
   const controller = new AbortController();
   const cancel = () => controller.abort(signal.reason);

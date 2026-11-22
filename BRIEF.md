@@ -21,7 +21,7 @@ A participant can start with Node.js 24 and npm, extend the prototype and test a
 
 ## Boundaries
 
-A shareable static build contains no secrets and provides no confidentiality between roles. Hosting is optional and provider-independent.
+A shareable static build contains no secrets and provides no confidentiality between roles. Hosting is optional and provider-independent. An explicitly configured Vercel deployment can add public server-only AI functions with an IP request quota; portable static builds remain offline by default.
 
 ## Learning
 

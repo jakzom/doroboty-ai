@@ -15,13 +15,18 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      testIgnore: "**/i02-dev.spec.ts",
+      testIgnore: ["**/i02-dev.spec.ts", "**/i02-hosted.spec.ts"],
       use: { ...devices["Desktop Chrome"] },
     },
     {
       name: "chromium-dev",
       testMatch: "**/i02-dev.spec.ts",
       use: { ...devices["Desktop Chrome"], baseURL: "http://127.0.0.1:3107" },
+    },
+    {
+      name: "chromium-hosted",
+      testMatch: "**/i02-hosted.spec.ts",
+      use: { ...devices["Desktop Chrome"], baseURL: "http://127.0.0.1:3108" },
     },
   ],
   webServer: [
@@ -34,6 +39,13 @@ export default defineConfig({
       command: "npm run dev -- --port 3107",
       url: "http://127.0.0.1:3107",
       env: { I02_OPENAI_API_KEY: "" },
+      reuseExistingServer: false,
+    },
+    {
+      command:
+        "npm run build -- --outDir artifacts/hosted-test && npm run preview -- --outDir artifacts/hosted-test --port 3108",
+      url: "http://127.0.0.1:3108",
+      env: { I02_HOSTED_AI: "enabled", I02_OPENAI_API_KEY: "" },
       reuseExistingServer: false,
     },
   ],
