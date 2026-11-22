@@ -2,14 +2,14 @@
 .record-sheet {
   min-width: 0;
   padding: 24px 28px;
-  border: 1px solid var(--gui-text);
-  border-radius: 24px;
-  background: white;
+  border: 1px solid var(--dr-divider);
+  border-radius: 14px;
+  background: var(--dr-surface);
 }
 .record-tabs {
   display: flex;
   gap: 16px;
-  border-bottom: 1px solid #d8d5d1;
+  border-bottom: 1px solid var(--dr-divider);
   margin-bottom: 22px;
 }
 .record-tabs .record-tab {
@@ -57,7 +57,7 @@
 }
 .record-section {
   padding: 24px 0;
-  border-top: 1px solid #d8d5d1;
+  border-top: 1px solid var(--dr-divider);
 }
 .record-section :is(h2, h3) {
   margin-bottom: 8px;
@@ -68,7 +68,7 @@
 }
 .record-footer {
   padding-top: 20px;
-  border-top: 1px solid #d8d5d1;
+  border-top: 1px solid var(--dr-divider);
 }
 .record-caption {
   color: var(--gui-text-muted);
@@ -135,7 +135,7 @@
   left: 0;
   width: 9px;
   height: 9px;
-  border: 1px solid var(--gui-text);
+  border: 1px solid var(--dr-divider);
   border-radius: 50%;
   background: var(--gui-text);
   content: "";
@@ -146,7 +146,7 @@
   bottom: -7px;
   left: 4px;
   width: 1px;
-  background: #d8d5d1;
+  background: var(--dr-divider);
   content: "";
 }
 .process-timeline li:last-child::after {
@@ -206,8 +206,8 @@
 }
 .record-stage {
   padding: 3px 12px;
-  border-radius: 18px;
-  background: #ffe0f7;
+  border-radius: 10px;
+  background: var(--dr-category-lead-tint);
 }
 .record-stage:focus {
   outline: 2px solid var(--gui-focus);
@@ -336,4 +336,251 @@
   border: 1px solid var(--gui-edge);
   border-radius: 10px;
   background: var(--gui-canvas);
+}
+
+/* I02 criteria review, sources, and independent recruiter note. */
+.record-fictional {
+  align-self: start;
+  border: 1px solid var(--gui-edge);
+  border-radius: 10px;
+  background: var(--gui-surface);
+  padding: 3px 10px;
+  font-size: 12px;
+}
+
+.recruiting-layout > .i02-review {
+  grid-area: review;
+}
+
+.recruiting-layout:has(> .i02-review:not([hidden])) {
+  grid-template-areas: "review review" "margin sheet";
+}
+
+.i02-review-header,
+.i02-answer-heading,
+.i02-chat-heading,
+.i02-source-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.i02-review-header h2 {
+  margin: 4px 0 0;
+}
+
+.i02-review-body {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.32fr) minmax(0, 1fr);
+  gap: 20px;
+  padding-top: 16px;
+  margin-top: 16px;
+  border-top: 1px solid var(--gui-neutral-4);
+}
+
+.i02-review-tabs,
+.i02-review-pane,
+.i02-answer,
+.i02-note,
+.i02-chat,
+.i02-chat-turn,
+.i02-chat-form,
+.i02-chat-reply,
+.i02-chat-claim {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  align-content: start;
+}
+
+.i02-review-pane[hidden],
+.i02-review[hidden] {
+  display: none;
+}
+
+.i02-review-tabs [data-slot="button"],
+.i02-source-actions [data-slot="button"] {
+  max-width: 100%;
+  white-space: normal;
+  text-align: start;
+}
+
+.i02-review-tabs [data-slot="button"] {
+  justify-content: start;
+  border-radius: 10px;
+  min-height: 44px;
+}
+
+.i02-review-tabs [data-active] {
+  background: var(--gui-text);
+  color: var(--gui-surface);
+  --control-hover-bg: #363636;
+  --control-hover-text: var(--dr-surface);
+}
+
+.i02-review-pane :is(p, blockquote),
+.i02-note,
+.i02-chat {
+  overflow-wrap: anywhere;
+}
+
+.i02-review-pane blockquote,
+.i02-project,
+.i02-chat-turn {
+  background: var(--background);
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+
+.i02-review-pane blockquote {
+  border-inline-start: 2px solid var(--gui-color-1);
+  white-space: pre-wrap;
+}
+
+.i02-source-actions {
+  justify-content: start;
+}
+
+.i02-answer :is(h3, p) {
+  margin: 0;
+}
+
+.i02-answer ul,
+.i02-chat-sources {
+  list-style: disc;
+  padding-inline-start: 1.25em;
+}
+
+.i02-answer-heading {
+  padding-top: 14px;
+  margin-top: 6px;
+  border-top: 1px solid var(--gui-neutral-4);
+}
+
+.i02-answer-heading:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.i02-answer mark {
+  color: inherit;
+  background: var(--gui-color-1-transparent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.i02-answer mark:focus,
+.i02-review-header h2:focus-visible,
+.i02-answer-heading h3:focus-visible,
+.i02-chat-heading h3:focus-visible,
+.i02-project summary:focus-visible {
+  outline: 2px solid var(--gui-focus);
+  outline-offset: 3px;
+}
+
+.i02-project p {
+  margin-top: 8px;
+}
+
+.i02-project summary,
+.i02-chat-sources summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.i02-return {
+  margin-top: 8px;
+}
+
+.record-materials .record-tabs {
+  grid-area: 1 / 1 / auto / -1;
+  margin-bottom: 0;
+}
+
+.record-materials > .record-reading {
+  grid-area: 2 / 1;
+}
+
+.record-side-note {
+  grid-area: 3 / 1;
+  min-width: 0;
+  padding-block-end: 20px;
+}
+
+.i02-note .native-select {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.i02-note [role="status"]:empty,
+.i02-chat [role="status"]:empty,
+.i02-chat-log:empty {
+  display: none;
+}
+
+.record-materials {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+
+@media (min-width: 1130px) {
+  .record-materials {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    column-gap: 20px;
+  }
+
+  .record-side-note {
+    grid-area: 2 / 2;
+    margin-top: 30px;
+    padding-inline-start: 20px;
+    border-inline-start: 1px solid var(--gui-neutral-4);
+  }
+}
+
+.i02-chat-log {
+  display: grid;
+  gap: 10px;
+}
+
+.i02-chat-question {
+  justify-self: end;
+  background: var(--gui-color-1-transparent);
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+
+.i02-chat-sources details {
+  margin-top: 3px;
+}
+
+.i02-chat-form > label {
+  font-weight: 600;
+}
+
+@media (max-width: 950px) {
+  .recruiting-layout:has(> .i02-review:not([hidden])) {
+    grid-template-areas: "review" "sheet" "margin";
+  }
+}
+
+@media (max-width: 600px) {
+  .i02-review-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .i02-review-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .i02-review-tabs [data-slot="button"] {
+    padding-inline: 8px;
+    justify-content: center;
+    text-align: center;
+  }
 }

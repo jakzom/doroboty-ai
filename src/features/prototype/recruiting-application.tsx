@@ -1,7 +1,10 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ApplicationRecord } from "./application-record";
+import { hasPreparedI02Review } from "./i02-example";
+import { I02RecruiterNote } from "./i02-recruiter-note";
+import { useI02Review } from "./i02-review";
 import { nextStages, stageLabels, type Application } from "./model";
 import { usePrototype } from "./store";
 
@@ -13,6 +16,16 @@ export function RecruitingApplication({ application }: { application: Applicatio
   const pendingFocus = useRef(false);
   const company = state.companies.find((item) => item.id === application.companyId);
   const availableStages = nextStages[application.stage];
+  const roleDescription = state.jobs.find((job) => job.id === application.jobId)?.description;
+  const needsAnalysis = !application.experienceAnalysis && !hasPreparedI02Review(application);
+  const i02Review = useI02Review(application, roleDescription, () => {
+    void run({ type: "request_application_analysis", applicationId: application.id });
+  });
+
+  useEffect(() => {
+    if (needsAnalysis)
+      void run({ type: "request_application_analysis", applicationId: application.id });
+  }, [application.id, needsAnalysis, run]);
 
   useLayoutEffect(() => {
     if (pendingFocus.current) {
@@ -29,6 +42,8 @@ export function RecruitingApplication({ application }: { application: Applicatio
         audience="employer"
         history={application.events}
         statusRef={statusRef}
+        {...i02Review}
+        reviewNote={<I02RecruiterNote application={application} />}
         footer={
           availableStages.length > 0 ? (
             <>
@@ -38,8 +53,10 @@ export function RecruitingApplication({ application }: { application: Applicatio
                   <Button
                     key={stage}
                     variant={stage === "rejected" ? "outline" : "default"}
-                    onClick={() => {
-                      if (run({ type: "stage", applicationId: application.id, stage, note })) {
+                    onClick={async () => {
+                      if (
+                        await run({ type: "stage", applicationId: application.id, stage, note })
+                      ) {
                         setNote("");
                         setAnnouncement(`Zapisano etap: ${stageLabels[stage]}.`);
                         pendingFocus.current = true;

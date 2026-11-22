@@ -1,0 +1,26 @@
+@font-face {
+  font-family: Syne;
+  src: url("pairing-fonts/Syne.ttf") format("truetype");
+  font-weight: 400 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: Inter;
+  src: url("pairing-fonts/Inter.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+body { font-family: var(--dr-font-ui); }
+.wordmark, .mast #page-title { font-family: var(--dr-font-display); }
+.wordmark { font-weight: 750; letter-spacing: -.048em; }
+.mast #page-title {
+  font-size: clamp(2.55rem, 6.15vw, 4.85rem);
+  font-weight: 700;
+  letter-spacing: -.05em;
+  line-height: 1.03;
+  text-wrap: balance;
+}
+@media (max-width: 650px) {
+  .wordmark { font-size: 1.15rem; font-weight: 700; }
+}

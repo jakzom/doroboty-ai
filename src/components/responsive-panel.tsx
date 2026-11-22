@@ -32,7 +32,13 @@ export function ResponsivePanel({
     () => false,
   );
   const [open, setOpen] = useState(false);
-  if (!mobile) return children;
+  if (!mobile)
+    return (
+      <details className="orbital-extra-filters">
+        <summary>Więcej filtrów</summary>
+        {children}
+      </details>
+    );
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={<Button variant="outline" className="pp-filter-button" />}>

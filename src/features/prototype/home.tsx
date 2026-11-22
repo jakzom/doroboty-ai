@@ -7,7 +7,7 @@ import { usePrototype } from "./store";
 import { publishedJobs } from "./model";
 import { cn } from "@/lib/utils";
 
-import peopleArt from "../../../docs/design-system/agent-kit/assets/people.png";
+import { OrbitalArt } from "@/components/orbital-art";
 
 const categories = [
   {
@@ -33,8 +33,8 @@ export default function HomePage() {
 
   return (
     <>
-      <section className="home-intro bg-muted/25 shadow-[var(--gui-divider-bottom-shadow)]">
-        <div className="mx-auto grid max-w-[1360px] gap-12 px-5 py-16 lg:grid-cols-[1.3fr_0.7fr] lg:px-8 lg:py-24">
+      <section className="home-intro">
+        <div className="orbital-container orbital-home-heading">
           <div>
             <Badge variant="secondary" className="px-3 py-1 text-xs">
               Dobra robota. Z AI w środku.
@@ -58,11 +58,11 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
-          <img className="people-art" src={peopleArt} alt="Dwie osoby pracujące razem z laptopem" />
+          <OrbitalArt animated />
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1360px] px-5 py-16 lg:px-8 lg:py-20">
+      <section className="orbital-container orbital-section">
         <p className="text-xs font-medium tracking-[var(--gui-tracking-xl)] text-muted-foreground">
           Trzy sposoby pracy z AI
         </p>
@@ -70,9 +70,15 @@ export default function HomePage() {
           Build. Apply. Lead.
         </h2>
         <div className="mt-8 grid gap-5 md:grid-cols-3">
-          {categories.map((category, index) => (
-            <article key={category.slug} className="prototype-panel">
-              <span className="text-xs font-medium text-muted-foreground">0{index + 1}</span>
+          {categories.map((category) => (
+            <article
+              key={category.slug}
+              data-category={category.slug}
+              className="prototype-panel orbital-route-card"
+            >
+              <span className="orbital-category-initial" aria-hidden="true">
+                {category.label[0]}
+              </span>
               <h3 className="mt-3 text-xl font-semibold">{category.label}</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 {category.description}
@@ -88,8 +94,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-muted/25 shadow-[var(--gui-divider-top-shadow)]">
-        <div className="mx-auto max-w-[1360px] px-5 py-16 lg:px-8 lg:py-20">
+      <section className="orbital-section-rule">
+        <div className="orbital-container orbital-section">
           <div className="flex flex-wrap items-end justify-between gap-5">
             <div>
               <p className="text-xs font-medium tracking-[var(--gui-tracking-xl)] text-muted-foreground">

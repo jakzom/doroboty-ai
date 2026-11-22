@@ -24,18 +24,18 @@ FEATURES.md describes current behavior, not a roadmap. Update it in the same cha
 
 ## Required design system
 
-For every new or changed screen, use [Poster People project instructions](docs/design-system/README.md). Read that guide, [design.md](docs/design-system/agent-kit/design.md), [component API](docs/design-system/agent-kit/components/API.md), and the relevant [human reference](docs/design-system/agent-kit/reference/components.md) before choosing styles or layout. Read the [host implementation rules](docs/design-system/IMPLEMENTATION.md) and [application acceptance checklist](docs/design-system/VERIFICATION.md) as required companions. [GUI.md](GUI.md) is the short entry point. This is the required visual direction; the previous theme guidance has been removed.
+Use [Orbital B.02 project instructions](docs/design-system/README.md), the local [live reference](docs/design-system/orbital/styl.html), [host implementation rules](docs/design-system/IMPLEMENTATION.md), [component APIs](docs/design-system/HOST-COMPONENTS.md), relevant [record APIs](docs/design-system/RECORDS.md) and [acceptance checklist](docs/design-system/VERIFICATION.md). [GUI.md](GUI.md) is the short entry point. The user explicitly approved Orbital B.02 in stage 2; Poster People is historical reference only.
 
-Use the complete local kit in docs/design-system/agent-kit as the source for typography, colors, radii, anatomy, responsive composition and states. Adapt it to this project's React/TypeScript/Vite and existing Base UI primitives. Keep the `render` API, hash routes, domain data and persistent local flows. Do not import the example controllers, fixtures, body reset or string renderer into product React code. Current application styles are implementation to adapt within the active task scope, not another approved visual target. Installing documentation does not itself convert the running UI.
+Keep React/TypeScript/Vite, existing Base UI primitives and `render`, hash routes, domain data and persistent local flows. Do not import reference controllers, fixtures or reset into product code. Use local Syne/Inter and the supplied atlas, purple actions, stable Build/Apply/Lead colors and quiet 10px/14px controls/panels. Keep both imported reference kits immutable; implement in src/ and the host token layer.
 
-Run `npm run design-system:dev` for the reference catalog/listing/offer (port 8952) and `npm run design-system:check` for integrity and example checks. No extra package installation is needed for the kit. Use local bundled Geist Serif/illustration assets; no remote runtime dependencies. Keep the kit immutable and implement product changes in src/ and the host token layer. Follow the guide's desktop/mobile, long-content, keyboard/state and integration checks; the reference's verification report does not verify a new screen.
+Run `npm run design-system:dev` for the Orbital catalog/listing/offer on port8952 and `npm run design-system:check` for source integrity and historical example checks. No additional installation or remote runtime assets are needed. Follow desktop/mobile, long-content, keyboard/state and integration checks; source verification does not verify a changed React screen.
 
 ## Standards
 
 - Code, comments and authored engineering documentation are English; end-user UI and canonical AIPH source wording are Polish.
 - Use npm, Node.js 24 and package-lock.json. No second package manager.
 - Features belong in src/features; src/components/ui contains shared Base UI primitives.
-- For UI changes follow GUI.md and docs/design-system/README.md; use the accepted Poster People design system with the existing Base UI components and render composition API. Do not restore the removed theme guides or require global design skills.
+- For UI changes follow GUI.md and docs/design-system/README.md; use the accepted Orbital B.02 design system with the existing Base UI components and render composition API. Do not restore the removed theme guides or require global design skills.
 - Use React Router hash routes.
 - Never log private free text or introduce secrets into the frontend.
 

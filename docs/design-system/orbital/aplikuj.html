@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aplikuj · DoRoboty.ai</title>
+  <link rel="stylesheet" href="tokens.css?v=orbital-v1.2">
+  <link rel="stylesheet" href="listing.css?v=orbital-v1.2">
+  <link rel="stylesheet" href="typography.css?v=orbital-v1.2">
+  <link rel="stylesheet" href="workflow.css?v=orbital-v1.2">
+  <script src="offers.js?v=orbital-v1.2" defer></script>
+<script src="published-offers.js?v=orbital-v1.2" defer></script>
+  <script src="workflow-data.js?v=orbital-v1.2" defer></script>
+  <script src="apply.js?v=orbital-v1.2" defer></script>
+  <link rel="stylesheet" href="system.css?v=orbital-v1.2">
+<link rel="icon" href="brand/favicon.svg" type="image/svg+xml"><link rel="icon" href="brand/favicon.ico" sizes="16x16 32x32 48x48"><link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
+<link rel="stylesheet" href="orbital.css?v=orbital-v1.2"></head>
+<body class="doroboty-theme">
+  <a class="skip" href="#workflow-main">Przejdź do treści</a>
+  <header class="site-header"><div class="shell site-bar brand-nav">
+      <a class="wordmark" href="index.html">DoRoboty<span>.ai</span></a>
+      <nav class="site-links" aria-label="Główna nawigacja"><a class="utility" href="index.html#wyniki">Oferty</a>
+<a class="utility" href="o-doroboty.html">O DoRoboty.ai</a>
+<a class="utility" href="rekrutacja.html">Panel rekrutera</a></nav>
+      <a class="add-offer" href="dodaj-oferte.html">Dodaj ofertę <span aria-hidden="true">↗</span></a>
+    </div></header>
+  <main class="shell workflow-page" id="workflow-main">
+    <a class="back-link" id="offer-back" href="index.html#wyniki">← Wróć do oferty</a>
+    <header class="workflow-heading">
+      <div class="workflow-meta" id="application-meta"><span class="utility workflow-kicker">Aplikacja testowa</span></div>
+      <h1>Aplikuj.</h1>
+      <p id="application-role"></p>
+    </header>
+    <div class="workflow-layout" id="application-layout" hidden>
+      <div class="workflow-stack">
+        <section class="workflow-panel" id="application-edit" aria-labelledby="application-edit-title">
+          <h2 id="application-edit-title" tabindex="-1">Twoje zgłoszenie</h2>
+          <p class="workflow-muted">Użyj przykładowych danych. Zgłoszenie zapisze się tylko w tej karcie.</p>
+          <div class="workflow-actions"><button class="text-button" type="button" id="prefill">Wstaw dane przykładowe</button></div>
+          <form class="workflow-form" id="application-form">
+            <label class="workflow-field">Imię i nazwisko
+              <input name="name" required maxlength="80" autocomplete="off">
+            </label>
+            <label class="workflow-field">Opisz swój wkład w projekt z AI
+              <small class="workflow-muted">Podaj zadanie, za które odpowiadałaś lub odpowiadałeś, i sposób sprawdzenia rezultatu.</small>
+              <textarea name="answer" required maxlength="1600" rows="5"></textarea>
+            </label>
+            <label class="workflow-field">Fragment projektu <small class="workflow-muted">Opcjonalnie. Wklej krótki przykład bez danych klientów.</small>
+              <textarea name="material" maxlength="1200" rows="3"></textarea>
+            </label>
+            <div class="workflow-actions"><button class="detail-link" type="submit">Sprawdź zgłoszenie →</button></div>
+          </form>
+        </section>
+        <section class="workflow-panel" id="application-review" hidden aria-labelledby="application-review-title">
+          <h2 id="application-review-title" tabindex="-1">Sprawdź zgłoszenie</h2>
+          <div class="workflow-stack">
+            <div><h3>Imię i nazwisko</h3><p id="review-name" class="workflow-text"></p></div>
+            <div><h3>Opis doświadczenia</h3><p id="review-answer" class="workflow-text"></p></div>
+            <div><h3>Fragment projektu</h3><p id="review-material" class="workflow-text"></p></div>
+          </div>
+          <div class="workflow-actions">
+            <button class="detail-link" id="submit-application" type="button">Zapisz aplikację testową</button>
+            <button class="text-button" id="edit-application" type="button">Wróć do edycji</button>
+          </div>
+          <p class="workflow-status" id="application-error" role="alert"></p>
+        </section>
+        <section class="workflow-panel" id="application-done" hidden aria-labelledby="application-done-title">
+          <h2 id="application-done-title" tabindex="-1">Aplikacja testowa zapisana</h2>
+          <p>Możesz wrócić do ofert i kontynuować przeglądanie.</p>
+          <div class="workflow-actions">
+            <a class="detail-link" href="index.html#wyniki">Wróć do ofert</a>
+            <a class="text-button" id="show-recruiter" href="rekrutacja.html" hidden>Zobacz aplikację w panelu rekrutera ↗</a>
+          </div>
+        </section>
+      </div>
+      <aside class="workflow-panel" aria-labelledby="application-facts-title">
+        <h2 id="application-facts-title">Warunki oferty</h2>
+        <div id="application-facts" class="offer-summary-facts"></div>
+      </aside>
+    </div>
+    <p id="application-unavailable" hidden>Ta oferta jest niedostępna. <a href="index.html#wyniki">Wróć do listingu</a>.</p>
+  </main>
+</body>
+</html>

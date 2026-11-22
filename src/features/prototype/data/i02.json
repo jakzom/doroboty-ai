@@ -1,0 +1,56 @@
+{
+  "job": {
+    "id": "job-i02",
+    "slug": "specjalista-ds-automatyzacji-obslugi-klienta",
+    "companyId": "10000000-0000-4000-8000-000000000001",
+    "title": "Specjalista ds. automatyzacji obsługi klienta",
+    "summary": "Usprawniaj pracę zespołu obsługi klienta za pomocą automatyzacji.",
+    "description": "Wspieraj wdrażanie automatyzacji w codziennej pracy zespołu obsługi klienta i sprawdzaj efekty zmian.",
+    "category": "apply",
+    "function": "operations",
+    "remoteStatus": "hybrid",
+    "locations": ["Warszawa"],
+    "seniority": "mid",
+    "contract": "employment",
+    "publicationStatus": "draft",
+    "publishedAt": "2026-11-14T09:00:00.000Z",
+    "expiryAt": "2026-12-14T09:00:00.000Z",
+    "verificationStatus": "unverified"
+  },
+  "application": {
+    "id": "application-i02",
+    "candidateId": "candidate-marek",
+    "candidateName": "Marek Nowak",
+    "cv": "Doświadczenie w usprawnianiu procesów obsługi klienta i przygotowywaniu instrukcji dla zespołów.",
+    "answer": "Pomagałem wdrożyć asystenta do kategoryzacji wiadomości w jednym zespole obsługi. Przygotowałem opis kategorii i instrukcję dla użytkowników, zbierałem zgłoszenia błędów i przekazywałem je osobie konfigurującej rozwiązanie. Po spotkaniach zespołu aktualizowałem instrukcję.\n\nKonfigurację i połączenie z systemem obsługi wykonywała inna osoba. Zespół używał rozwiązania przez sześć tygodni. Nie prowadziliśmy porównania jakości przed i po; zbieraliśmy komentarze pracowników.",
+    "summary": "Fikcyjny przykład aplikacji dotyczącej automatyzacji obsługi klienta.",
+    "submittedAt": "2026-11-14T09:00:00.000Z"
+  },
+  "criteria": [
+    {
+      "id": "contribution",
+      "label": "Własny wkład",
+      "requirement": "Opisz, za co samodzielnie odpowiadałeś przy wdrażaniu automatyzacji.",
+      "quote": "Przygotowałem opis kategorii i instrukcję dla użytkowników, zbierałem zgłoszenia błędów i przekazywałem je osobie konfigurującej rozwiązanie.",
+      "interpretation": "Kandydat opisuje przygotowanie kategorii i instrukcji oraz zbieranie zgłoszeń. Konfigurację i integrację przypisuje innej osobie. Taki podział zadań opisano również w udostępnionej notatce projektowej.",
+      "unknown": "Który problem kandydat sam rozwiązał i jaki był efekt jego działania?"
+    },
+    {
+      "id": "usage",
+      "label": "Użycie w pracy",
+      "requirement": "Pokaż, jak zespół korzystał z rozwiązania w codziennej pracy.",
+      "quote": "Zespół używał rozwiązania przez sześć tygodni.",
+      "interpretation": "Kandydat deklaruje sześć tygodni użycia w jednym zespole.",
+      "unknown": "Jak często i do jakich spraw używano narzędzia?"
+    },
+    {
+      "id": "evaluation",
+      "label": "Ocena efektu",
+      "requirement": "Wyjaśnij, jak sprawdzaliście efekty automatyzacji.",
+      "quote": "Nie prowadziliśmy porównania jakości przed i po; zbieraliśmy komentarze pracowników.",
+      "interpretation": "Według kandydata zbierano komentarze pracowników. Nie było porównania jakości przed i po wdrożeniu.",
+      "unknown": "Czy rozwiązanie poprawiło jakość kategoryzacji? Brakuje porównywalnych danych o jakości sprzed wdrożenia i po nim."
+    }
+  ],
+  "projectNote": "Marek Nowak przygotowuje opisy kategorii i instrukcję dla zespołu, zbiera zgłoszenia błędów i przekazuje je dalej. Za konfigurację asystenta i połączenie go z systemem obsługi odpowiada inna osoba z zespołu wdrożeniowego."
+}

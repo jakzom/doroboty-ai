@@ -1,0 +1,65 @@
+.mast form.offer-search { max-width: 880px; }
+.offer-search-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(178px, 27%, 226px) max-content;
+  align-items: stretch;
+  padding: 6px;
+  border: 1px solid #a19a8c;
+  border-radius: var(--radius-panel);
+  background: var(--dr-surface);
+}
+.offer-search-bar:focus-within { border-color: var(--dr-action); }
+.offer-search-query, .offer-search-location { position: relative; display: flex; align-items: center; min-width: 0; }
+.offer-search-location { border-left: 1px solid var(--dr-divider); margin-inline-end: 7px; }
+.offer-search-query svg, .offer-search-location svg { position: absolute; pointer-events: none; color: var(--dr-text-muted); }
+.offer-search-query svg, .offer-search-location .search-pin { left: 13px; }
+.offer-search-location .search-chevron { right: 12px; }
+.offer-search-query input, .offer-search-location select {
+  width: 100%;
+  min-width: 0;
+  min-height: 52px;
+  padding: 0 14px 0 46px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  font-size: .95rem;
+}
+.offer-search-query input::placeholder { color: var(--dr-text-muted); opacity: 1; }
+.offer-search-location select { appearance: none; padding-right: 33px; cursor: pointer; text-overflow: ellipsis; }
+.offer-search-query input:focus-visible, .offer-search-location select:focus-visible, .offer-search-submit:focus-visible { outline-offset: -3px; }
+.offer-search-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 0 clamp(16px, 2.4vw, 27px);
+  min-height: 52px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  background: var(--dr-action);
+  color: var(--dr-on-selected);
+  font-size: .95rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.offer-search-submit:hover { background: var(--dr-purple-hover); }
+.offer-search-submit:focus-visible { outline-color: var(--dr-on-selected); }
+.offer-search-submit svg { flex: none; }
+.search-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+@media (max-width: 630px) {
+  .offer-search-bar { grid-template-columns: minmax(0, 1fr) max-content; gap: 4px; }
+  .offer-search-query { grid-column: 1 / -1; border-bottom: 1px solid var(--dr-divider); }
+  .offer-search-location { border-left: 0; margin-inline-end: 0; }
+  .offer-search-query input, .offer-search-location select, .offer-search-submit { min-height: 46px; font-size: .89rem; }
+  .offer-search-query input { padding-left: 36px; }
+  .offer-search-location select { padding-left: 31px; padding-right: 18px; }
+  .offer-search-query svg, .offer-search-location .search-pin { left: 9px; width: 18px; }
+  .offer-search-location .search-pin { left: 7px; }
+  .offer-search-location .search-chevron { right: 3px; width: 12px; }
+  .offer-search-submit { gap: 6px; padding-inline: 8px; }
+  .offer-search-submit svg { width: 14px; }
+}
+@media (max-width: 315px) {
+  .offer-search-submit { grid-column: 1 / -1; }
+}

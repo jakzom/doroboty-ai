@@ -14,6 +14,7 @@ import { currentPerson, publishedJobs, stageLabels, MIN_APPLICATION_ANSWER_LENGT
 import { PageTitle, Empty, NotFound, Notice } from "./shell";
 import { CvAttachment } from "./cv-attachment";
 import { MatchScore } from "./match-score";
+import { isI02Application } from "./i02-example";
 import { RecruitingApplication } from "./recruiting-application";
 import { CandidateApplication } from "./candidate-application";
 
@@ -49,13 +50,13 @@ export function PersonPicker() {
             <p className="my-4 text-muted-foreground">{person.headline}</p>
             <Button
               variant="outline"
-              onClick={() => {
-                run({ type: "select_person", id: person.id });
+              onClick={async () => {
+                await run({ type: "select_person", id: person.id });
                 navigate(
                   person.role === "candidate"
                     ? (safeNext ?? "/app")
                     : person.role === "employer"
-                      ? "/app/oferty"
+                      ? (safeNext ?? "/app/oferty")
                       : "/app/case",
                 );
               }}
@@ -143,11 +144,12 @@ export function ProfilePage({ preview = false }: { preview?: boolean }) {
   const { state, run } = usePrototype();
   const person = currentPerson(state)!;
   const [message, setMessage] = useState("");
-  function save(e: FormEvent<HTMLFormElement>) {
+  async function save(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setMessage("");
     const data = new FormData(e.currentTarget);
     if (
-      run({
+      await run({
         type: "profile",
         value: {
           name: String(data.get("name")),
@@ -269,7 +271,7 @@ export function ApplyPage() {
         </Link>
       </section>
     );
-  function submit(e: FormEvent) {
+  async function submit(e: FormEvent) {
     e.preventDefault();
     if (submittedOnce.current) return;
     setAttempted(true);
@@ -281,14 +283,16 @@ export function ApplyPage() {
       document.getElementById("application-consent")?.focus();
       return;
     }
-    if (run({ type: "submit", jobId: job!.id, notes, generated, answer, consent })) {
-      submittedOnce.current = true;
+    submittedOnce.current = true;
+    if (await run({ type: "submit", jobId: job!.id, notes, generated, answer, consent })) {
       setSubmitted(true);
       if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         const rect = sendButton.current?.getBoundingClientRect();
         if (rect)
           setConfettiOrigin({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
       }
+    } else {
+      submittedOnce.current = false;
     }
   }
   return (
@@ -360,7 +364,11 @@ export function ApplyPage() {
                 checked={consent}
                 onCheckedChange={(v) => setConsent(v)}
                 aria-invalid={consentInvalid || undefined}
-                aria-describedby={consentInvalid ? "application-consent-error" : undefined}
+                aria-describedby={
+                  consentInvalid
+                    ? "application-consent-error application-ai-help"
+                    : "application-ai-help"
+                }
                 aria-label="Zatwierdzam treść i przesłanie aplikacji"
               />
               <span>
@@ -386,8 +394,9 @@ export function ApplyPage() {
                 type="button"
                 disabled={submitted}
                 variant="outline"
-                onClick={() => {
-                  if (run({ type: "draft", jobId: job.id, notes, generated, answer }))
+                onClick={async () => {
+                  setMessage("");
+                  if (await run({ type: "draft", jobId: job.id, notes, generated, answer }))
                     setMessage("Szkic został zapisany.");
                 }}
               >
@@ -400,8 +409,9 @@ export function ApplyPage() {
             >
               {submitted ? "Wysłano aplikację. Otwieramy listę Twoich aplikacji." : message}
             </p>
-            <p className="application-help">
-              Prototyp: aplikacja zostaje w tym przeglądarkowym scenariuszu.
+            <p className="application-help" id="application-ai-help">
+              Jeśli analiza AI jest włączona, po wysłaniu odpowiedź, przykładowe CV i opis
+              stanowiska trafią do OpenAI. Używaj wyłącznie fikcyjnych danych.
             </p>
           </div>
         </form>
@@ -444,6 +454,9 @@ export function ApplicationsPage({ employer = false }: { employer?: boolean }) {
                     to={`${employer ? "/app/kandydaci" : "/app/aplikacje"}/${a.id}`}
                   >
                     {employer ? a.candidateName : a.jobTitle}
+                    {employer && isI02Application(a) && (
+                      <span className="sr-only"> · {a.jobTitle}</span>
+                    )}
                   </Link>
                   <p className="my-3 text-muted-foreground">
                     {employer
@@ -452,7 +465,11 @@ export function ApplicationsPage({ employer = false }: { employer?: boolean }) {
                   </p>
                   <p>{stageLabels[a.stage]}</p>
                 </div>
-                <MatchScore score={a.score} />
+                {isI02Application(a) ? (
+                  <span className="record-fictional">Fikcyjny przykład</span>
+                ) : (
+                  <MatchScore score={a.score} />
+                )}
               </div>
               {employer && <p className="mt-4 text-muted-foreground">{a.summary}</p>}
             </article>
@@ -473,6 +490,9 @@ export function ApplicationDetail({ employer = false }: { employer?: boolean }) 
       x.id === id && (employer ? x.companyId === person.companyId : x.candidateId === person.id),
   );
   if (!application) return <NotFound />;
-  if (employer) return <RecruitingApplication key={application.id} application={application} />;
+  if (employer)
+    return (
+      <RecruitingApplication key={`${person.id}:${application.id}`} application={application} />
+    );
   return <CandidateApplication key={application.id} application={application} />;
 }

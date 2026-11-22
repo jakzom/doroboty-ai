@@ -3,11 +3,11 @@
 @import "shadcn/tailwind.css";
 @import "../../tokens.css";
 @import "./workspace.css";
-@import "./poster-people.css";
 @import "./marketplace.css";
 @import "./records.css";
 @import "./application.css";
 @import "./interactions.css";
+@import "./orbital.css";
 
 @theme inline {
   --color-background: var(--background);
@@ -125,12 +125,14 @@
 }
 
 @font-face {
-  font-family: "Geist Serif";
-  src: url("../../docs/design-system/agent-kit/assets/fonts/GeistSerif-Regular.woff2")
-    format("woff2");
-  font-weight: 400;
+  font-family: "Syne";
+  src: url("./fonts/Syne.ttf") format("truetype");
+  font-weight: 400 800;
   font-display: swap;
 }
-:root {
-  --font-timeless: "Timeless Grotesk", sans-serif;
+@font-face {
+  font-family: "Inter";
+  src: url("./fonts/Inter.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
 }

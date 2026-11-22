@@ -8,9 +8,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-[var(--gui-color-1)] text-[var(--gui-text)] [--control-hover-bg:#ffacef] shadow-[var(--gui-edge-shadow)]",
+          "bg-[var(--gui-color-1)] text-white [--control-hover-bg:var(--dr-purple-hover)] [--control-hover-text:white]",
         outline:
-          "bg-white shadow-[var(--gui-edge-shadow)] text-[var(--gui-text)] [--control-hover-bg:var(--gui-color-1-transparent)] aria-expanded:bg-[var(--gui-neutral-3-transparent)]",
+          "bg-[var(--dr-surface)] shadow-[var(--gui-edge-shadow)] text-[var(--gui-text)] [--control-hover-bg:var(--gui-color-1-transparent)] aria-expanded:bg-[var(--gui-neutral-3-transparent)]",
         secondary:
           "bg-[var(--gui-surface-muted)] text-[var(--gui-text)] [--control-hover-bg:var(--gui-neutral-4)] aria-expanded:bg-[var(--gui-neutral-4-transparent)]",
         ghost:
