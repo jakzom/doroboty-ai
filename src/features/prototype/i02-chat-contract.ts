@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { i02Example } from "./i02-example";
+import { i02Example } from "./i02-example.js";
 
 export const i02ChatPath = "api/i02/chat";
 export const i02AnalysisPath = "api/i02/analysis";

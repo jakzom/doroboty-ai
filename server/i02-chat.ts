@@ -5,10 +5,14 @@ import {
   i02AnalysisRequestSchema,
   i02ChatPath,
   i02ChatRequestSchema,
-} from "../src/features/prototype/i02-chat-contract";
-import { analyzeI02Application, askI02Model, type I02Provider as Provider } from "./i02-provider";
+} from "../src/features/prototype/i02-chat-contract.js";
+import {
+  analyzeI02Application,
+  askI02Model,
+  type I02Provider as Provider,
+} from "./i02-provider.js";
 
-export { analyzeI02Application, askI02Model } from "./i02-provider";
+export { analyzeI02Application, askI02Model } from "./i02-provider.js";
 
 const localAddresses = new Set(["127.0.0.1", "::1", "::ffff:127.0.0.1"]);
 // Allow full snapshots and bounded conversation history, including JSON escaping.

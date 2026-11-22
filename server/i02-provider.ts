@@ -7,7 +7,7 @@ import {
   getI02Sources,
   parseI02Analysis,
   parseI02Reply,
-} from "../src/features/prototype/i02-chat-contract";
+} from "../src/features/prototype/i02-chat-contract.js";
 
 const instructions = [
   "You help a recruiter read one fictional application. Reply in clear Polish.",

@@ -1,8 +1,8 @@
 import {
   i02AnalysisRequestSchema,
   i02ChatRequestSchema,
-} from "../src/features/prototype/i02-chat-contract";
-import { analyzeI02Application, askI02Model, type I02Provider } from "./i02-provider";
+} from "../src/features/prototype/i02-chat-contract.js";
+import { analyzeI02Application, askI02Model, type I02Provider } from "./i02-provider.js";
 
 type Endpoint = "chat" | "analysis";
 type HostedOptions = {
