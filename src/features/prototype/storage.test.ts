@@ -1,13 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { initialState } from "./model";
-import {
-  MAX_IMPORT_BYTES,
-  parseState,
-  readState,
-  saveState,
-  serializeState,
-  STORAGE_KEY,
-} from "./storage";
+import { MAX_IMPORT_BYTES, parseState, readState, serializeState, STORAGE_KEY } from "./storage";
 function memory(raw: string | null = null) {
   const values = new Map(raw === null ? [] : [[STORAGE_KEY, raw]]);
   return {
@@ -21,7 +14,7 @@ describe("browser persistence and recovery", () => {
   it("round-trips a complete valid scenario", () => {
     const storage = memory();
     const s = initialState();
-    saveState(storage, s);
+    storage.setItem(STORAGE_KEY, serializeState(s));
     expect(readState(storage).state).toEqual(s);
     expect(parseState(serializeState(s))).toEqual(s);
   });
@@ -44,17 +37,6 @@ describe("browser persistence and recovery", () => {
         setItem() {},
       }).blocked,
     ).toBe(true);
-  });
-  it("reports quota/write failure without altering the original", () => {
-    const old = "old";
-    const storage = {
-      getItem: () => old,
-      setItem() {
-        throw new Error("QuotaExceededError");
-      },
-    };
-    expect(() => saveState(storage, initialState())).toThrow("Wyeksportuj");
-    expect(storage.getItem()).toBe(old);
   });
   it("rejects invalid references and oversized files", () => {
     const s = initialState();

@@ -1,21 +1,7 @@
-# GUI — DoRoboty.ai Poster People
+# GUI — DoRoboty.ai Orbital B.02
 
-The required visual direction for new and changed screens is the accepted **Poster People** design system. The project instructions are [docs/design-system/README.md](docs/design-system/README.md). Read them before UI work; they define how the standalone reference is adapted to this React/TypeScript/Vite application. The previous theme reference tree and skill requirements have been removed.
+The approved direction is Orbital B.02 v1.2. Start with [project instructions](docs/design-system/README.md), [implementation](docs/design-system/IMPLEMENTATION.md), [host APIs](docs/design-system/HOST-COMPONENTS.md), [record APIs](docs/design-system/RECORDS.md) and [verification](docs/design-system/VERIFICATION.md).
 
-## Read and preview
+Run `npm run design-system:dev` for the live local reference at port8952. Inspect the catalog, listing, offer, workflow and editorial pages. `npm run design-system:check` validates the imported sources; `./scripts/verify` runs the application gate. Keep both local reference packages immutable. Poster People is historical evidence, superseded by the user's stage-2 approval.
 
-1. [Project integration guide](docs/design-system/README.md): authority, React/Base UI mapping, routes/state, assets and completion criteria.
-2. [Host implementation rules](docs/design-system/IMPLEMENTATION.md), [React component catalog](docs/design-system/HOST-COMPONENTS.md), [record/CV APIs](docs/design-system/RECORDS.md), [acceptance checklist](docs/design-system/VERIFICATION.md) and [status/open findings](docs/design-system/STATUS.md): reusable owners, actual contracts, URL/focus rules, breakpoint values and regression scenarios.
-3. [Agent entry point](docs/design-system/agent-kit/design.md): visual hierarchy, composition, exact standalone imports and extension boundaries.
-4. [Component API](docs/design-system/agent-kit/components/API.md) plus relevant [human reference](docs/design-system/agent-kit/reference/components.md): anatomy, variants, states and evidence.
-5. `npm run design-system:dev`: local catalog, full listing and offer on port 8952. `npm run design-system:check` checks the immutable kit. No global skill or extra installation is required.
-
-## Implement in this app
-
-- Preserve the requested scope, React/TypeScript/Vite, hash routes, Base UI's `render` composition, Zod/local data operations and current application workflows.
-- Use local Geist Serif Regular for headings, paper/white/ink/pink roles, source contours and radii, complete title wrapping and responsive listing/offer composition.
-- Adapt host tokens and existing primitives together. Do not paste the kit's global reset or vanilla controllers into React, substitute example data for product state, or create a parallel button/card library.
-- Keep docs/design-system/agent-kit unchanged as the reference; implement product UI in src/ and the host theme layer. Existing token names do not establish an alternative visual target.
-- Compare desktop/mobile evidence; test long content, missing salary/marks, keyboard focus, selection, dialogs and recovery. Run ./scripts/verify and report actual checks. The original kit report does not verify a new React screen.
-
-The running application has a host adaptation; current code still requires comparison with the source on each UI task. Follow the implementation map rather than creating parallel controls. Keep Search outside mobile filters, preserve copied section URLs under HashRouter, manage focus after chip removal, reuse outlined surfaces and compare full action type roles plus one contour. Record actual evidence and partial findings; preserve old audit artifacts in separate task-specific directories.
+Use local Syne for wordmark/display, Inter for data/job titles, warm paper, purple actions, fixed Build/Apply/Lead colors and 10px controls/14px panels. Adapt existing React/Base UI components and tokens; preserve hash routes, scenario data, Zod operations, local persistence and human approval. Source demo controllers/fixtures never replace product workflows. Compare desktop/mobile and test keyboard, long content, errors, recovery and atlas pause/reduced motion. Document actual evidence and limitations.

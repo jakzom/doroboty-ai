@@ -1,0 +1,28 @@
+/* DoRoboty.ai v1.2 · Orbital B.02. Wspólne tokeny produktu; klasa na body. */
+.doroboty-theme {
+  --radius-control: 10px;
+  --radius-panel: 14px;
+  --dr-font-display: Syne, system-ui, sans-serif;
+  --dr-font-ui: Inter, system-ui, sans-serif;
+  --dr-error: #a73512;
+  --dr-paper: #f5efdf;
+  --dr-surface: #fffaf0;
+  --dr-text: #272e28;
+  --dr-text-muted: #5f6255;
+  --dr-orbit-rule: #a8ac98;
+  --dr-divider: #d4ccb9;
+  --dr-purple: #7840a4;
+  --dr-purple-hover: #65358a;
+  --dr-action: var(--dr-purple);
+  --dr-focus: #2146b0;
+  --dr-selected: #252523;
+  --dr-on-selected: #ffffff;
+  --dr-row-divider-width: 1px;
+  --dr-category-strip-width: 4px;
+  --dr-category-build: #155bc0;
+  --dr-category-build-tint: #e2edff;
+  --dr-category-apply: #0b7255;
+  --dr-category-apply-tint: #d8f2e6;
+  --dr-category-lead: var(--dr-purple);
+  --dr-category-lead-tint: #ede0fa;
+}

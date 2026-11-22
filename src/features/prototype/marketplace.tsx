@@ -7,7 +7,7 @@ import { BackLink } from "@/components/back-link";
 import { ResponsivePanel } from "@/components/responsive-panel";
 import { SalaryFact } from "@/features/jobs/salary-fact";
 import { functionLabels } from "@/features/jobs/presentation";
-import peopleArt from "../../../docs/design-system/agent-kit/assets/people.png";
+import { OrbitalArt } from "@/components/orbital-art";
 import { CompanyLogo } from "@/features/jobs/company-logo";
 import { JobCard } from "@/features/jobs/job-card";
 import { JobFiltersForm } from "@/features/jobs/job-filters";
@@ -166,11 +166,11 @@ export function JobsPage() {
                 Znajdź rolę, w której zrobisz coś dobrego.
               </p>
             </div>
-            <img
-              className="pp-people-art"
-              src={peopleArt}
-              alt="Dwie osoby pracujące razem z laptopem"
-            />
+            <OrbitalArt animated category={filters.category} />
+          </div>
+          <div className="orbital-search-intro">
+            <span>Twój następny krok</span>
+            <span>Znajdź ofertę dla siebie ↓</span>
           </div>
           <form
             key={`${filters.query ?? ""}:${filters.location ?? ""}`}
@@ -215,13 +215,14 @@ export function JobsPage() {
             {(
               [
                 ["", "Wszystkie oferty", ""],
-                ["build", "Build", "Twórz AI"],
-                ["apply", "Apply", "Wdrażaj AI"],
-                ["lead", "Lead", "Wyznaczaj kierunek"],
+                ["build", "Build", "Budowanie rozwiązań"],
+                ["apply", "Apply", "Stosowanie AI"],
+                ["lead", "Lead", "Prowadzenie inicjatyw"],
               ] as const
             ).map(([key, label, description]) => (
               <button
                 key={key}
+                data-category={key || undefined}
                 className={cn("pp-category-tab", (filters.category ?? "") === key && "pp-selected")}
                 aria-pressed={(filters.category ?? "") === key}
                 onClick={() => change("category", key)}
@@ -235,6 +236,45 @@ export function JobsPage() {
                 </span>
               </button>
             ))}
+          </div>
+          <div className="orbital-main-facets">
+            <fieldset className="orbital-facet">
+              <legend>Lokalizacja</legend>
+              <div>
+                <button
+                  type="button"
+                  aria-pressed={!filters.location}
+                  onClick={() => change("location", "")}
+                >
+                  Cała Polska
+                </button>
+                {locations.map((city) => (
+                  <button
+                    type="button"
+                    key={city}
+                    aria-pressed={filters.location === city}
+                    onClick={() => change("location", filters.location === city ? "" : city)}
+                  >
+                    {city}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+            <fieldset className="orbital-facet">
+              <legend>Tryb pracy</legend>
+              <div>
+                {Object.entries(remoteLabels).map(([key, label]) => (
+                  <button
+                    type="button"
+                    key={key}
+                    aria-pressed={filters.remote === key}
+                    onClick={() => change("remote", filters.remote === key ? "" : key)}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
           </div>
         </div>
       </section>
@@ -372,7 +412,9 @@ export function JobPage() {
                 Opublikowano {new Intl.DateTimeFormat("pl-PL").format(new Date(job.publishedAt))}
               </p>
             </div>
-            <span className="pp-offer-category">{categoryLabels[job.category]}</span>
+            <span className="pp-offer-category" data-category={job.category}>
+              {categoryLabels[job.category]}
+            </span>
           </div>
           <h1>{job.title}</h1>
           <div className="pp-offer-key-facts">
@@ -480,7 +522,6 @@ export function JobPage() {
                 Oferty tej firmy <ArrowRight />
               </Link>
             </div>
-            <img src={peopleArt} alt="" />
           </div>
         </section>
       </div>
@@ -510,7 +551,7 @@ export function CompanyPage() {
   if (!company) return <NotFound />;
   const jobs = publishedJobs(state).filter((x) => x.companyId === company.id);
   return (
-    <article className="mx-auto max-w-[1360px] px-5 py-14 lg:px-8 lg:py-20">
+    <article className="orbital-container orbital-section">
       <div className="grid gap-8 pb-12 shadow-[var(--gui-divider-bottom-shadow)] lg:grid-cols-[1fr_320px]">
         <div>
           <CompanyLogo company={company} size="large" />
@@ -522,21 +563,23 @@ export function CompanyPage() {
             {company.description}
           </p>
         </div>
-        <dl className="h-fit rounded-xl bg-muted/35 p-6 text-sm">
-          <div className="flex gap-2">
-            <MapPin className="size-5" />
+        <aside className="prototype-panel h-fit text-sm">
+          <dl className="orbital-company-facts">
             <div>
               <dt className="font-medium">Lokalizacja</dt>
-              <dd className="mt-1 text-muted-foreground">{company.location}</dd>
+              <dd className="mt-1 text-muted-foreground flex gap-2">
+                <MapPin className="size-5" />
+                {company.location}
+              </dd>
             </div>
-          </div>
-          <div className="mt-5 flex gap-2">
-            <Users className="size-5" />
-            <div>
+            <div className="mt-5">
               <dt className="font-medium">Wielkość</dt>
-              <dd className="mt-1 text-muted-foreground">{company.sizeLabel}</dd>
+              <dd className="mt-1 text-muted-foreground flex gap-2">
+                <Users className="size-5" />
+                {company.sizeLabel}
+              </dd>
             </div>
-          </div>
+          </dl>
           {/^https?:\/\//i.test(company.websiteUrl) && (
             <a
               className="mt-6 inline-flex items-center gap-2 font-medium text-[var(--gui-link)] hover:underline"
@@ -547,7 +590,7 @@ export function CompanyPage() {
               Strona firmy <ArrowUpRight className="size-4" />
             </a>
           )}
-        </dl>
+        </aside>
       </div>
       <section className="py-12">
         <h2 className="text-2xl font-semibold">Otwarte role</h2>

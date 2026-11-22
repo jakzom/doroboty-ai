@@ -2,6 +2,8 @@ import { z } from "zod";
 import marketplace from "./data/marketplace.json" with { type: "json" };
 import people from "./data/people.json" with { type: "json" };
 import type { JobWithCompany } from "@/features/jobs/types";
+import { applicationAnalysisSchema } from "./i02-chat-contract";
+import { hasPreparedI02Review, i02Example } from "./i02-example";
 
 const id = z
   .string()
@@ -118,6 +120,7 @@ const applicationSchema = z.object({
   score: z.number().int().min(0).max(100),
   summary: text,
   stage: z.enum(stages),
+  experienceAnalysis: applicationAnalysisSchema.optional(),
   events: z
     .array(z.object({ stage: z.enum(stages), at: z.iso.datetime(), note: text }))
     .min(1)
@@ -130,6 +133,21 @@ const draftSchema = z.object({
   generated: text,
   answer: text,
 });
+const noteSteps = ["interview", "defer", "needs_information"] as const;
+export const recruiterNoteSteps: Record<(typeof noteSteps)[number], string> = {
+  interview: "Oznacz do rozmowy",
+  defer: "Odłóż",
+  needs_information: "Brakuje informacji",
+};
+export const MAX_RECRUITER_RATIONALE_LENGTH = 1000;
+export const recruiterNoteInputSchema = z.object({
+  step: z.enum(noteSteps),
+  rationale: z.string().trim().min(1).max(MAX_RECRUITER_RATIONALE_LENGTH),
+});
+const recruiterNoteSchema = recruiterNoteInputSchema.extend({
+  applicationId: id,
+  recruiterId: id,
+});
 export const stateSchema = z
   .object({
     version: z.literal(1),
@@ -140,6 +158,7 @@ export const stateSchema = z
     applications: z.array(applicationSchema).max(2000),
     saved: z.array(z.object({ candidateId: id, jobId: id })).max(5000),
     drafts: z.array(draftSchema).max(1000),
+    recruiterNotes: z.array(recruiterNoteSchema).default([]),
   })
   .superRefine((s, ctx) => {
     const problem = (message: string) => ctx.addIssue({ code: "custom", message });
@@ -193,6 +212,18 @@ export const stateSchema = z
         pairs.add(key);
       }
     }
+    const notes = new Set<string>();
+    const applicationCompanies = new Map(s.applications.map((a) => [a.id, a.companyId]));
+    const recruiterCompanies = new Map(
+      s.people.filter((person) => person.role === "employer").map((p) => [p.id, p.companyId]),
+    );
+    for (const note of s.recruiterNotes) {
+      const key = `${note.applicationId}:${note.recruiterId}`;
+      const companyId = applicationCompanies.get(note.applicationId);
+      if (!companyId || recruiterCompanies.get(note.recruiterId) !== companyId || notes.has(key))
+        problem("Invalid recruiter note reference");
+      notes.add(key);
+    }
   });
 export type State = z.infer<typeof stateSchema>;
 export type Person = State["people"][number];
@@ -211,6 +242,12 @@ export type Action =
       consent: boolean;
     }
   | { type: "stage"; applicationId: string; stage: Stage; note: string }
+  | { type: "request_application_analysis"; applicationId: string }
+  | {
+      type: "save_recruiter_note";
+      applicationId: string;
+      value: z.input<typeof recruiterNoteInputSchema>;
+    }
   | { type: "withdraw"; applicationId: string }
   | { type: "publish"; job: z.infer<typeof jobSchema> }
   | { type: "company"; name: string; description: string };
@@ -244,6 +281,24 @@ export function initialState(): State {
     stage: "submitted",
     events: [{ stage: "submitted", at: "2026-11-02T09:00:00.000Z", note: "" }],
   });
+  const { job: exampleJob, application: example } = i02Example;
+  state.jobs.push(jobSchema.parse(exampleJob));
+  state.applications.push({
+    id: example.id,
+    candidateId: example.candidateId,
+    companyId: exampleJob.companyId,
+    jobId: exampleJob.id,
+    jobTitle: exampleJob.title,
+    candidateName: example.candidateName,
+    cv: example.cv,
+    answer: example.answer,
+    sourceNotes: "",
+    generatedAnswer: "",
+    score: 0,
+    summary: example.summary,
+    stage: "submitted",
+    events: [{ stage: "submitted", at: example.submittedAt, note: "" }],
+  });
   return stateSchema.parse(state);
 }
 export function publishedJobs(state: State): JobWithCompany[] {
@@ -254,6 +309,13 @@ export function publishedJobs(state: State): JobWithCompany[] {
 }
 export function currentPerson(state: State) {
   return state.people.find((x) => x.id === state.activePersonId);
+}
+export function ownRecruiterNote(state: State, application: Application) {
+  const person = currentPerson(state);
+  if (person?.role !== "employer" || person.companyId !== application.companyId) return undefined;
+  return state.recruiterNotes.find(
+    (note) => note.applicationId === application.id && note.recruiterId === person.id,
+  );
 }
 export function transition(
   state: State,
@@ -313,10 +375,44 @@ export function transition(
         score: p.exampleScore,
         summary: p.exampleSummary,
         stage: "submitted",
+        experienceAnalysis: { status: "pending", roleDescription: job.description },
         events: [{ stage: "submitted", at: now, note: "" }],
       }),
     );
     s.drafts = s.drafts.filter((x) => !(x.candidateId === p.id && x.jobId === job.id));
+  } else if (action.type === "request_application_analysis") {
+    const p = employer();
+    const application = s.applications.find((x) => x.id === action.applicationId);
+    if (!application || application.companyId !== p.companyId)
+      return fail("Analiza jest niedostępna dla tej aplikacji.");
+    const existing = application.experienceAnalysis;
+    if (
+      !hasPreparedI02Review(application) &&
+      existing?.status !== "ready" &&
+      existing?.status !== "pending"
+    ) {
+      application.experienceAnalysis = {
+        status: "pending",
+        roleDescription:
+          existing?.roleDescription ??
+          s.jobs.find((job) => job.id === application.jobId)?.description,
+      };
+    }
+  } else if (action.type === "save_recruiter_note") {
+    const p = employer();
+    const application = s.applications.find((x) => x.id === action.applicationId);
+    if (!application || application.companyId !== p.companyId)
+      return fail("Notatka rekrutera jest niedostępna dla tej aplikacji.");
+    const note = {
+      ...recruiterNoteInputSchema.parse(action.value),
+      applicationId: application.id,
+      recruiterId: p.id,
+    };
+    const existing = s.recruiterNotes.findIndex(
+      (entry) => entry.applicationId === application.id && entry.recruiterId === p.id,
+    );
+    if (existing < 0) s.recruiterNotes.push(note);
+    else s.recruiterNotes[existing] = note;
   } else if (action.type === "stage" || action.type === "withdraw") {
     const application = s.applications.find((x) => x.id === action.applicationId);
     if (!application) return fail("Nie znaleziono aplikacji.");

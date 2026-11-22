@@ -4,6 +4,7 @@ import { ProcessTimeline } from "@/components/process-timeline";
 import { RecordSheet } from "@/components/record-sheet";
 import { CvAttachment } from "./cv-attachment";
 import { MatchScore } from "./match-score";
+import { isI02Application } from "./i02-example";
 import { stageLabels, type Application, type Stage } from "./model";
 
 type RecordEvent = { stage: Stage; at: string; note?: string };
@@ -21,10 +22,25 @@ export function ApplicationRecord({
   statusRef,
   children,
   footer,
+  answerContent,
+  review,
+  reviewNote,
+  activeSection,
+  onSectionChange,
 }: {
   application: Pick<
     Application,
-    "candidateId" | "candidateName" | "jobTitle" | "stage" | "answer" | "cv" | "score" | "summary"
+    | "id"
+    | "jobId"
+    | "companyId"
+    | "candidateId"
+    | "candidateName"
+    | "jobTitle"
+    | "stage"
+    | "answer"
+    | "cv"
+    | "score"
+    | "summary"
   >;
   companyName: string;
   audience: "candidate" | "employer";
@@ -32,11 +48,17 @@ export function ApplicationRecord({
   statusRef?: Ref<HTMLSpanElement>;
   children?: ReactNode;
   footer?: ReactNode;
+  answerContent?: ReactNode;
+  review?: ReactNode;
+  reviewNote?: ReactNode;
+  activeSection?: string;
+  onSectionChange?: (value: string) => void;
 }) {
   const candidate = audience === "candidate";
   const title = candidate ? application.jobTitle : application.candidateName;
   const context = candidate ? application.candidateName : application.jobTitle;
   const submitted = history[0];
+  const fictional = isI02Application(application);
   return (
     <article className="recruiting-record">
       <header className="recruiting-header">
@@ -55,7 +77,11 @@ export function ApplicationRecord({
           <span className="record-stage" tabIndex={-1} ref={statusRef}>
             {stageLabels[application.stage]}
           </span>
-          <MatchScore score={application.score} />
+          {fictional ? (
+            <span className="record-fictional">Fikcyjny przykład</span>
+          ) : (
+            <MatchScore score={application.score} />
+          )}
           {submitted && (
             <span>
               Złożona:{" "}
@@ -65,13 +91,14 @@ export function ApplicationRecord({
         </div>
       </header>
       <div className="recruiting-layout">
+        {review}
         <RecordSheet
           label={candidate ? "Twoja wysłana aplikacja" : "Materiały kandydata"}
           sections={[
             {
               value: "answer",
               label: "Odpowiedź",
-              content: (
+              content: answerContent ?? (
                 <>
                   <h3>Przesłana aplikacja</h3>
                   <p>{application.answer}</p>
@@ -95,6 +122,9 @@ export function ApplicationRecord({
             },
           ]}
           footer={footer}
+          sideNote={reviewNote}
+          activeSection={activeSection}
+          onSectionChange={onSectionChange}
         >
           {children}
         </RecordSheet>

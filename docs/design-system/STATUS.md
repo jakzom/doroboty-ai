@@ -1,5 +1,23 @@
 # Design-system integration status
 
+## Stage 2 — Orbital B.02, November 20, 2026
+
+The user explicitly approved migration to Orbital B.02 v1.2. Active authority and host recipes are in README.md, IMPLEMENTATION.md and VERIFICATION.md. The 52 imported source files and both runtime fonts are checked by verify-orbital.mjs; the previous67-file kit remains byte-identical. Current execution evidence belongs to `docs/tasks/orbital-b02-stage-2.md`. Stage3 readiness reassessment is separately gated by user approval.
+
+The company definition list now uses valid groups and keeps its website link outside dl (NH-01); the company facts use a14px bordered surface (NH-02). Targeted execution evidence is recorded with stage2. NH-03 was a previous-theme identity recommendation, superseded by the new visual target. NH-04 (company-row save controls) and NH-05 (company-specific demo-context treatment) remain unchanged, not silently closed.
+
+## Stage2 verification limitation (historical)
+
+The final stage2 gate passed40 unit tests and48/49 browser journeys. The simultaneous-tab write journey intermittently observed both edits without a conflict notice; persistence correctness remains open. The visual migration and add-offer/persona regression are complete, but the final gate is not green. See the stage2 task record before claiming readiness.
+
+## Stage3 persistence follow-up
+
+The user authorized repairing the cross-tab defect and reassessing readiness. The current host uses transactional IndexedDB and preserves version1 JSON/legacy migration. Current execution evidence is recorded in `docs/tasks/production-readiness-stage-3.md`; the preceding stage2 failure remains historical evidence.
+
+## Historical integration snapshot
+
+The following records the previous direction and its dated verification. Its visual values do not override Orbital.
+
 This is a receiving-application snapshot as of November 2, 2026. The immutable reference remains Poster People v1.0.0 (67 files). User-requested host implementation/documentation does not imply a new source-kit release, publishing or approval of every application screen.
 
 Engineering task paths below refer to the full development repository and are deliberately not distributed in participant packages. All current component contracts and open findings are self-contained in this directory; task history and ignored screenshots are optional supporting evidence.

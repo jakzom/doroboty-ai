@@ -17,8 +17,8 @@
     "check": "npm run format:check && npm run design-system:check && npm run lint && npm run typecheck && npm test && npm run verify:packet && npm run build && npm run test:e2e",
     "package:participant": "node scripts/package-participant.mjs",
     "verify:packet": "node scripts/verify-participant.mjs",
-    "design-system:check": "node docs/design-system/verify-kit.mjs && npm --prefix docs/design-system/agent-kit run check",
-    "design-system:dev": "npm --prefix docs/design-system/agent-kit run dev"
+    "design-system:check": "node docs/design-system/verify-orbital.mjs && node docs/design-system/verify-kit.mjs && npm --prefix docs/design-system/agent-kit run check",
+    "design-system:dev": "node docs/design-system/serve.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
@@ -43,10 +43,10 @@
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^5.0.3",
-    "vite": "^7.0.0",
+    "vite": "~7.3.8",
     "@vitejs/plugin-react": "^5.0.0",
     "@tailwindcss/vite": "^4",
-    "typescript-eslint": "^8.0.0",
+    "typescript-eslint": "^8.73.0",
     "@eslint/js": "^9",
     "eslint-plugin-react-hooks": "^7.0.0",
     "eslint-plugin-react-refresh": "^0.4.0",
@@ -55,5 +55,10 @@
   "engines": {
     "node": ">=24 <27"
   },
-  "type": "module"
+  "type": "module",
+  "overrides": {
+    "@ts-morph/common@0.27.0": {
+      "minimatch": "^11.0.9"
+    }
+  }
 }

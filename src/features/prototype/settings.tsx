@@ -37,11 +37,11 @@ export function SettingsPage() {
       setError("Nie udało się odczytać pliku.");
     }
   }
-  function confirm() {
+  async function confirm() {
+    setMessage("");
     if (pending === "reset") {
-      reset();
-      setMessage("Przywrócono scenariusz początkowy.");
-    } else if (importState(raw)) {
+      if (await reset()) setMessage("Przywrócono scenariusz początkowy.");
+    } else if (await importState(raw)) {
       setMessage("Dane zostały zaimportowane.");
     }
     setPending(null);
@@ -124,9 +124,13 @@ export function PrivacyPage() {
           ani poufnych informacji.
         </p>
         <p>
-          Profile, aplikacje i ustawienia pozostają w pamięci tej przeglądarki. Aplikacja nie wysyła
-          ich do bazy, dostawcy AI ani systemu analitycznego. Plik eksportu zawiera cały lokalny
-          scenariusz, w tym notatki.
+          Profile, aplikacje i ustawienia są zapisane w tej przeglądarce. Plik eksportu zawiera cały
+          lokalny scenariusz, w tym notatki.
+        </p>
+        <p>
+          Jeśli funkcja AI jest włączona, OpenAI otrzymuje materiały wybranej aplikacji do analizy
+          po wysłaniu zgłoszenia lub przy pierwszym przeglądzie starszego zgłoszenia. W czacie
+          OpenAI otrzymuje także pytanie i kontekst rozmowy. Używaj wyłącznie fikcyjnych danych.
         </p>
         <p>
           Możesz usunąć zmiany przyciskiem „Resetuj scenariusz” w ustawieniach lub wyczyścić dane

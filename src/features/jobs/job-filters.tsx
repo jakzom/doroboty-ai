@@ -1,5 +1,5 @@
 import type { JobFilters } from "./types";
-import { contractLabels, functionLabels, remoteLabels, seniorityLabels } from "./presentation";
+import { contractLabels, functionLabels, seniorityLabels } from "./presentation";
 export function JobFiltersForm({
   filters,
   onChange,
@@ -19,7 +19,6 @@ export function JobFiltersForm({
       </div>
       {(
         [
-          ["remote", "Tryb pracy", remoteLabels],
           ["seniority", "Doświadczenie", seniorityLabels],
           ["contract", "Forma współpracy", contractLabels],
           ["function", "Funkcja", functionLabels],

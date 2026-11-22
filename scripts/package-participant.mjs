@@ -18,6 +18,7 @@ if (fs.existsSync(target) && fs.readdirSync(target).length)
 verifyPacket(root);
 const entries = [
   "src",
+  "server/i02-chat.ts",
   "public",
   "tests",
   "package.json",

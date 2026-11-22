@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel rekrutera · DoRoboty.ai</title>
+  <link rel="stylesheet" href="tokens.css?v=orbital-v1.2">
+  <link rel="stylesheet" href="listing.css?v=orbital-v1.2">
+  <link rel="stylesheet" href="typography.css?v=orbital-v1.2">
+  <link rel="stylesheet" href="workflow.css?v=orbital-v1.2">
+  <script src="offers.js?v=orbital-v1.2" defer></script>
+  <script src="workflow-data.js?v=orbital-v1.2" defer></script>
+  <script src="recruit.js?v=orbital-v1.2" defer></script>
+  <link rel="stylesheet" href="system.css?v=orbital-v1.2">
+<link rel="icon" href="brand/favicon.svg" type="image/svg+xml"><link rel="icon" href="brand/favicon.ico" sizes="16x16 32x32 48x48"><link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
+<link rel="stylesheet" href="orbital.css?v=orbital-v1.2"></head>
+<body class="doroboty-theme">
+  <a class="skip" href="#workflow-main">Przejdź do treści</a>
+  <header class="site-header"><div class="shell site-bar brand-nav">
+      <a class="wordmark" href="index.html">DoRoboty<span>.ai</span></a>
+      <nav class="site-links" aria-label="Główna nawigacja"><a class="utility" href="index.html#wyniki">Oferty</a>
+<a class="utility" href="o-doroboty.html">O DoRoboty.ai</a>
+<a class="utility" href="rekrutacja.html" aria-current="page">Panel rekrutera</a></nav>
+      <a class="add-offer" href="dodaj-oferte.html">Dodaj ofertę <span aria-hidden="true">↗</span></a>
+    </div></header>
+  <main class="shell workflow-page" id="workflow-main">
+    <a class="back-link" id="recruit-back" href="index.html">← Wróć do ofert</a>
+    <header class="workflow-heading">
+      <div class="workflow-meta cat-apply" id="recruit-meta"><span class="utility workflow-kicker">Panel rekrutera · dane przykładowe</span></div>
+      <h1 id="recruit-title">Aplikacje.</h1>
+      <p id="recruit-role"></p><div class="workflow-actions"><a class="detail-link" href="dodaj-oferte.html">Dodaj ofertę →</a></div>
+    </header>
+    <div class="workflow-layout" id="recruit-index">
+      <section class="workflow-stack" aria-labelledby="applications-heading">
+        <div class="workflow-meta">
+          <h2 id="applications-heading">Zgłoszenia</h2><span class="count" id="application-count"></span>
+        </div>
+        <ul class="case-list" id="application-list"></ul>
+      </section>
+      <aside class="workflow-panel" aria-labelledby="index-criteria-title">
+        <h2 id="index-criteria-title">Czego wymaga rola</h2>
+        <ul id="index-criteria"></ul>
+        <div class="workflow-actions"><a class="text-button" id="review-offer-link" href="oferta.html?id=automatyzacja-obslugi-klienta">Zobacz ogłoszenie ↗</a></div>
+      </aside>
+    </div>
+    <div class="workflow-layout" id="recruit-case" hidden>
+      <div class="workflow-stack">
+        <section class="workflow-panel" aria-labelledby="candidate-heading">
+          <h2 id="candidate-heading">Odpowiedź w aplikacji</h2>
+          <p class="workflow-muted">Opisz swój wkład w projekt z AI.</p>
+          <div id="candidate-answer"></div>
+          <details id="candidate-material-details">
+            <summary>Fragment projektu</summary>
+            <blockquote class="case-fragment workflow-text" id="source-material" tabindex="-1"></blockquote>
+          </details>
+        </section>
+        <section class="workflow-panel" aria-labelledby="case-criteria-title">
+          <h2 id="case-criteria-title">Czego wymaga rola</h2>
+          <ul id="case-criteria"></ul>
+        </section>
+      </div>
+      <div class="workflow-stack">
+        <section class="workflow-panel" id="interpretation" aria-labelledby="interpretation-title">
+          <h2 id="interpretation-title">Doświadczenie z AI</h2>
+          <p class="workflow-muted" id="interpretation-intro">Zobacz, jak odpowiedź odnosi się do kryteriów tej roli.</p>
+          <div class="workflow-actions" id="interpretation-action">
+            <button class="detail-link" type="button" id="explain-ai" aria-expanded="false" aria-controls="interpretation-body">Objaśnij doświadczenie AI</button>
+          </div>
+          <div id="interpretation-body" hidden>
+            <p class="workflow-muted">Przygotowane objaśnienie przykładowe.</p>
+            <div class="case-analysis" id="criteria-analysis"></div>
+            <details>
+              <summary>Co oznacza klasyfikacja zgłoszeń?</summary>
+              <p>System przypisuje wiadomościom kategorie, na przykład „zwrot” albo „reklamacja”. Zespół może ustalić, które zgłoszenia wymagają ręcznego przeglądu.</p>
+            </details>
+            <details>
+              <summary>Zgłoś błędne objaśnienie</summary>
+              <form class="workflow-form" id="feedback-form">
+                <label class="workflow-field">Co wymaga poprawy?<textarea name="feedback" rows="2" required maxlength="600"></textarea></label>
+                <div class="workflow-actions"><button type="submit" class="text-button">Zapisz uwagę</button></div>
+                <p class="workflow-status" id="feedback-status" role="status"></p>
+              </form>
+            </details>
+          </div>
+        </section>
+        <section class="workflow-panel" aria-labelledby="decision-title">
+          <div class="workflow-meta"><h2 id="decision-title">Kolejny krok</h2><span class="count" id="case-status">Do przeglądu</span></div>
+          <form class="workflow-form" id="decision-form">
+            <label class="workflow-field">Co dalej?
+              <select name="stage" required>
+                <option value="">Wybierz kolejny krok</option>
+                <option value="conversation">Oznacz do rozmowy</option>
+                <option value="missing">Brakuje informacji</option>
+                <option value="later">Odłóż aplikację</option>
+              </select>
+            </label>
+            <label class="workflow-field">Uzasadnienie
+              <small class="workflow-muted">Co wynika z materiału i czego nadal potrzebujesz?</small>
+              <textarea name="reason" required rows="4" maxlength="1000"></textarea>
+            </label>
+            <div class="workflow-actions"><button type="submit" class="detail-link">Zapisz decyzję</button></div>
+            <p id="decision-status" class="workflow-status" role="status"></p>
+          </form>
+        </section>
+      </div>
+    </div>
+    <p id="case-not-found" hidden>Aplikacja jest niedostępna w tej karcie. <a href="rekrutacja.html">Otwórz listę zgłoszeń</a>.</p>
+  </main>
+</body>
+</html>

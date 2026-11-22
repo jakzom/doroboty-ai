@@ -1,18 +1,47 @@
-/* Poster People host adaptation. Reference kit remains immutable. */
+/* Orbital B.02 v1.2 source palette. */
+:root {
+  --radius-control: 10px;
+  --radius-panel: 14px;
+  --dr-font-display: Syne, system-ui, sans-serif;
+  --dr-font-ui: Inter, system-ui, sans-serif;
+  --dr-error: #a73512;
+  --dr-paper: #f5efdf;
+  --dr-surface: #fffaf0;
+  --dr-text: #272e28;
+  --dr-text-muted: #5f6255;
+  --dr-orbit-rule: #a8ac98;
+  --dr-divider: #d4ccb9;
+  --dr-purple: #7840a4;
+  --dr-purple-hover: #65358a;
+  --dr-action: var(--dr-purple);
+  --dr-focus: #2146b0;
+  --dr-selected: #252523;
+  --dr-on-selected: #ffffff;
+  --dr-row-divider-width: 1px;
+  --dr-category-strip-width: 4px;
+  --dr-category-build: #155bc0;
+  --dr-category-build-tint: #e2edff;
+  --dr-category-apply: #0b7255;
+  --dr-category-apply-tint: #d8f2e6;
+  --dr-category-lead: var(--dr-purple);
+  --dr-category-lead-tint: #ede0fa;
+}
+
+/* Orbital B.02 host tokens and compatibility aliases for existing React controls. */
 :root {
   color-scheme: light;
 
-  --theme-name: "Poster People";
+  --theme-name: "Orbital B.02";
   --theme-icon-family: "Lucide";
   --theme-icon-style: "outlined";
   --icon-light-display: none;
   --icon-regular-display: inline;
   --icon-bold-display: none;
 
-  --gui-font-brand: "Geist Serif", Georgia, serif;
-  --gui-font-ui: Arial, Helvetica, system-ui, sans-serif;
-  --gui-font-editorial: "Geist Serif", Georgia, serif;
-  --gui-font-data: Arial, Helvetica, system-ui, sans-serif;
+  --gui-font-brand: "Syne", system-ui, sans-serif;
+  --gui-font-ui: "Inter", system-ui, sans-serif;
+  --gui-font-editorial: "Syne", system-ui, sans-serif;
+  --gui-font-data: "Inter", system-ui, sans-serif;
   --font-ui: var(--gui-font-ui);
   --font-brand: var(--gui-font-brand);
   --font-editorial: var(--gui-font-editorial);
@@ -20,9 +49,9 @@
   --weight-ui-regular: 400;
   --weight-ui-medium: 500;
   --weight-ui-heavy: 600;
-  --weight-brand-regular: 400;
-  --weight-brand-medium: 400;
-  --weight-brand-heavy: 400;
+  --weight-brand-regular: 700;
+  --weight-brand-medium: 700;
+  --weight-brand-heavy: 730;
   --weight-editorial-regular: 400;
   --weight-editorial-medium: 500;
   --weight-editorial-heavy: 600;
@@ -32,16 +61,16 @@
   --font-body: var(--gui-font-ui);
   --font-display: var(--gui-font-brand);
   --font-interface: var(--gui-font-ui);
-  --font-code: var(--gui-font-data);
+  --font-code: ui-monospace, SFMono-Regular, Consolas, monospace;
 
   --gui-space-zero: 0;
-  --gui-space-xxs: 5px;
+  --gui-space-xxs: 6px;
   --gui-space-xs: 10px;
   --gui-space-s: 14px;
-  --gui-space-m: 19px;
-  --gui-space-l: 29px;
-  --gui-space-xl: 39px;
-  --gui-space-xxl: 58px;
+  --gui-space-m: 20px;
+  --gui-space-l: 28px;
+  --gui-space-xl: 40px;
+  --gui-space-xxl: 64px;
   --space-xs: var(--gui-space-xxs);
   --space-sm: var(--gui-space-xs);
   --space-md: var(--gui-space-m);
@@ -50,191 +79,119 @@
   --space-2xl: var(--gui-space-xxl);
 
   --gui-text-xxs: 11px;
-  --gui-leading-xxs: 15px;
+  --gui-leading-xxs: 16px;
   --gui-text-xs: 13px;
-  --gui-leading-xs: 17px;
+  --gui-leading-xs: 20px;
   --gui-text-s: 15px;
-  --gui-leading-s: 21px;
+  --gui-leading-s: 23px;
   --gui-text-m: 17px;
-  --gui-leading-m: 26px;
-  --gui-text-l: 26px;
-  --gui-leading-l: 34px;
-  --gui-text-xl: 39px;
-  --gui-leading-xl: 43px;
+  --gui-leading-m: 27px;
+  --gui-text-l: 24px;
+  --gui-leading-l: 31px;
+  --gui-text-xl: 36px;
+  --gui-leading-xl: 40px;
   --gui-text-xxl: 52px;
   --gui-leading-xxl: 56px;
   --gui-tracking-xs: -0.02em;
   --gui-tracking-s: -0.01em;
   --gui-tracking-m: 0;
-  --gui-tracking-l: 0.01em;
-  --gui-tracking-xl: 0.02em;
+  --gui-tracking-l: 0;
+  --gui-tracking-xl: 0.055em;
 
   --gui-radius-zero: 0;
   --gui-radius-xs: 5px;
-  --gui-radius-s: 18px;
-  --gui-radius-m: 24px;
-  --gui-radius-l: 24px;
-  --gui-radius-xl: 24px;
+  --gui-radius-s: 10px;
+  --gui-radius-m: 14px;
+  --gui-radius-l: 14px;
+  --gui-radius-xl: 14px;
   --gui-radius-full: 9999px;
   --radius: var(--gui-radius-s);
 
-  --gui-neutral-1: #ffffff;
+  --gui-neutral-1: #fffaf0;
   --gui-neutral-1-transparent: #ffffff33;
-  --gui-neutral-2: #ffffff;
+  --gui-neutral-2: #fffaf0;
   --gui-neutral-2-transparent: #fbfbfb33;
-  --gui-neutral-3: #f4f4f0;
+  --gui-neutral-3: #f5efdf;
   --gui-neutral-3-transparent: #f4f4f433;
-  --gui-neutral-4: #d8d5d1;
+  --gui-neutral-4: #e9e1ce;
   --gui-neutral-4-transparent: #e7e7e733;
-  --gui-neutral-5: #cdcdcd;
+  --gui-neutral-5: #d4ccb9;
   --gui-neutral-5-transparent: #cdcdcd33;
-  --gui-neutral-6: #a1a1a1;
+  --gui-neutral-6: #a8ac98;
   --gui-neutral-6-transparent: #a1a1a133;
-  --gui-neutral-7: #7d7d7d;
+  --gui-neutral-7: #737667;
   --gui-neutral-7-transparent: #7d7d7d33;
-  --gui-neutral-8: #5e5a5c;
+  --gui-neutral-8: #5f6255;
   --gui-neutral-8-transparent: #55555533;
-  --gui-neutral-9: #333333;
+  --gui-neutral-9: #3b4238;
   --gui-neutral-9-transparent: #33333333;
-  --gui-neutral-10: #181818;
-  --gui-color-1: #ff90e8;
-  --gui-color-2: #181818;
-  --gui-color-2-transparent: #085e5533;
-  --gui-color-3: #ffe45b;
-  --gui-color-3-transparent: #ffed9b33;
-  --gui-color-4: #ffb5aa;
-  --gui-color-4-transparent: #ffb5aa33;
+  --gui-neutral-10: #272e28;
+  --gui-color-1: var(--dr-action);
+  --gui-color-2: var(--dr-action);
+  --gui-color-2-transparent: var(--dr-category-lead-tint);
+  --gui-color-3: var(--dr-category-build);
+  --gui-color-3-transparent: var(--dr-category-build-tint);
+  --gui-color-4: var(--dr-category-apply);
+  --gui-color-4-transparent: var(--dr-category-apply-tint);
   /* Noninteractive Match Score facts: red → orange → yellow → vivid green. */
   --gui-match-red: #ff6b79;
   --gui-match-orange: #ffb15c;
   --gui-match-yellow: #ffe45b;
   --gui-match-green: #00c853;
-  --gui-success: #00906c;
-  --gui-warning: #ffea00;
-  --gui-warning-transparent: #ffea0033;
-  --gui-error: #fc032d;
+  --gui-success: var(--dr-text);
+  --gui-warning: #8b5c12;
+  --gui-warning-transparent: #f3e4ba;
+  --gui-error: var(--dr-error);
   --gui-neutral-10-transparent: #00000033;
-  --gui-backdrop: #18181899;
-  --gui-color-1-transparent: #ffe0f7;
-  --gui-success-transparent: #00906c33;
-  --gui-error-transparent: #fc032d33;
+  --gui-backdrop: #272e2870;
+  --gui-color-1-transparent: var(--dr-category-lead-tint);
+  --gui-success-transparent: #e9e1ce;
+  --gui-error-transparent: #fbe8dd;
 
-  --gui-canvas: #f4f4f0;
-  --gui-surface: var(--gui-neutral-2);
-  --gui-surface-muted: var(--gui-neutral-3);
-  --gui-text: var(--gui-neutral-10);
-  --gui-text-muted: #5e5a5c;
-  --gui-text-muted-accessible: var(--gui-neutral-8);
-  --gui-edge: #181818;
-  --gui-accent: var(--gui-color-1);
-  --gui-accent-text: #181818;
-  /* Dark labels on pink actions. */
-  --gui-accent-text-accessible: var(--gui-neutral-10);
+  --gui-canvas: var(--dr-paper);
+  --gui-surface: var(--dr-surface);
+  --gui-surface-muted: var(--dr-paper);
+  --gui-text: var(--dr-text);
+  --gui-text-muted: var(--dr-text-muted);
+  --gui-text-muted-accessible: var(--dr-text-muted);
+  --gui-edge: var(--dr-divider);
+  --gui-accent: var(--dr-action);
+  --gui-accent-text: #ffffff;
+  /* White labels on the shared purple action. */
+  --gui-accent-text-accessible: #ffffff;
   --gui-danger: var(--gui-error);
-  --gui-focus: #181818;
-  --gui-link: var(--gui-color-2);
-  --gui-control: #ffffff;
-  --gui-control-hover: var(--gui-neutral-4);
-  --gui-control-disabled: var(--gui-neutral-3);
-  --gui-control-readonly: var(--gui-neutral-2);
+  --gui-focus: var(--dr-focus);
+  --gui-link: var(--dr-action);
+  --gui-control: var(--dr-surface);
+  --gui-control-hover: #eee6d5;
+  --gui-control-disabled: #e9e1ce;
+  --gui-control-readonly: var(--dr-paper);
 
   --gui-shadow-none: none;
-  --gui-shadow-s: 0 2px 4px 0 #00000000;
-  --gui-shadow-m: inset 0 0 0 1px #181818;
-  --gui-shadow-l: 0 16px 48px 0 #00000000;
-  /* Visible ink contours; no offset shadows. */
-  --gui-edge-shadow: inset 0 0 0 1px #181818;
+  --gui-shadow-s: none;
+  --gui-shadow-m: none;
+  --gui-shadow-l: none;
+  /* Flat atlas dividers. */
+  --gui-edge-shadow: inset 0 0 0 1px var(--dr-divider);
   --gui-divider-top-shadow: inset 0 1px var(--gui-edge);
   --gui-divider-bottom-shadow: inset 0 -1px var(--gui-edge);
   --gui-divider-inline-end-shadow: inset -1px 0 var(--gui-edge);
   --gui-accent-edge-shadow: none;
   --gui-accent-bar-shadow: inset 4px 0 var(--gui-color-1);
-  --gui-control-shadow: inset 0 0 0 1px #181818;
+  --gui-control-shadow: inset 0 0 0 1px var(--dr-divider);
   --gui-control-hover-shadow: none;
   --gui-control-focus-shadow: none;
   --gui-control-invalid-shadow: none;
   --gui-control-valid-shadow: none;
 
-  --gui-motion-small: 400ms
-    linear(
-      0,
-      0.2375,
-      0.5904,
-      0.8358,
-      0.9599,
-      1.0061,
-      1.0152,
-      1.0116,
-      1.0062,
-      1.0025,
-      1.0006,
-      0.9999,
-      1
-    );
-  --gui-motion-large: 600ms
-    linear(
-      0,
-      0.0846,
-      0.2691,
-      0.4778,
-      0.6674,
-      0.8179,
-      0.9249,
-      0.9926,
-      1.0293,
-      1.0442,
-      1.0452,
-      1.0388,
-      1.0296,
-      1.0202,
-      1.0121,
-      1.0061,
-      1.0019,
-      0.9995,
-      0.9983,
-      1
-    );
+  --gui-motion-small: 160ms ease;
+  --gui-motion-large: 220ms ease;
   --gui-scale-enter: 0.96;
   --gui-press-offset: 1px;
-  --motion-duration: 400ms;
-  --motion-easing: linear(
-    0,
-    0.2375,
-    0.5904,
-    0.8358,
-    0.9599,
-    1.0061,
-    1.0152,
-    1.0116,
-    1.0062,
-    1.0025,
-    1.0006,
-    0.9999,
-    1
-  );
-  --motion-large-duration: 600ms;
-  --motion-large-easing: linear(
-    0,
-    0.0846,
-    0.2691,
-    0.4778,
-    0.6674,
-    0.8179,
-    0.9249,
-    0.9926,
-    1.0293,
-    1.0442,
-    1.0452,
-    1.0388,
-    1.0296,
-    1.0202,
-    1.0121,
-    1.0061,
-    1.0019,
-    0.9995,
-    0.9983,
-    1
-  );
+  --motion-duration: 160ms;
+  --motion-easing: ease;
+  --motion-large-duration: 220ms;
+  --motion-large-easing: ease;
   --motion-popup-scale: 0.96;
   --motion-press-distance: 1px;
   --ease-out: linear(0, 0.38, 0.68, 0.85, 0.94, 0.98, 1.01, 1.01, 1);
@@ -250,8 +207,8 @@
   --card-foreground: var(--gui-text);
   --popover: var(--gui-neutral-1);
   --popover-foreground: var(--gui-text);
-  --primary: #ff90e8;
-  --primary-foreground: #181818;
+  --primary: var(--dr-action);
+  --primary-foreground: #ffffff;
   --secondary: var(--gui-surface-muted);
   --secondary-foreground: var(--gui-text);
   --muted: var(--gui-surface-muted);
@@ -269,10 +226,10 @@
   --chart-5: var(--gui-neutral-7);
   --sidebar: var(--gui-surface);
   --sidebar-foreground: var(--gui-text);
-  --sidebar-primary: var(--gui-neutral-10);
-  --sidebar-primary-foreground: var(--gui-neutral-1);
-  --sidebar-accent: var(--gui-color-1);
-  --sidebar-accent-foreground: var(--gui-accent-text);
+  --sidebar-primary: var(--dr-action);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--dr-category-lead-tint);
+  --sidebar-accent-foreground: var(--dr-action);
   --sidebar-border: var(--gui-edge);
   --sidebar-ring: var(--gui-focus);
   --color-success: var(--gui-success);
