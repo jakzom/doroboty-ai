@@ -17,6 +17,7 @@ import { MatchScore } from "./match-score";
 import { isI02Application } from "./i02-example";
 import { RecruitingApplication } from "./recruiting-application";
 import { CandidateApplication } from "./candidate-application";
+import { useConfiguredPostHog, usePrototypeLogs } from "@/lib/posthog-logger";
 
 export function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
@@ -142,6 +143,7 @@ export function WorkspaceHome() {
 }
 export function ProfilePage({ preview = false }: { preview?: boolean }) {
   const { state, run } = usePrototype();
+  const posthog = useConfiguredPostHog();
   const person = currentPerson(state)!;
   const [message, setMessage] = useState("");
   async function save(e: FormEvent<HTMLFormElement>) {
@@ -158,8 +160,10 @@ export function ProfilePage({ preview = false }: { preview?: boolean }) {
           location: String(data.get("location")),
         },
       })
-    )
+    ) {
+      posthog?.capture("profile_saved");
       setMessage("Profil został zapisany.");
+    }
   }
   return (
     <>
@@ -234,6 +238,8 @@ export function SavedPage() {
 export function ApplyPage() {
   const { slug } = useParams();
   const { state, run } = usePrototype();
+  const posthog = useConfiguredPostHog();
+  const logs = usePrototypeLogs();
   const person = currentPerson(state)!;
   const navigate = useNavigate();
   const job = publishedJobs(state).find((x) => x.slug === slug);
@@ -285,6 +291,15 @@ export function ApplyPage() {
     }
     submittedOnce.current = true;
     if (await run({ type: "submit", jobId: job!.id, notes, generated, answer, consent })) {
+      posthog?.capture("application_submitted", {
+        job_category: job!.category,
+        remote_status: job!.remoteStatus,
+      });
+      logs.info("application submitted", {
+        workflow: "application_submission",
+        job_category: job!.category,
+        remote_status: job!.remoteStatus,
+      });
       setSubmitted(true);
       if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         const rect = sendButton.current?.getBoundingClientRect();
@@ -396,8 +411,10 @@ export function ApplyPage() {
                 variant="outline"
                 onClick={async () => {
                   setMessage("");
-                  if (await run({ type: "draft", jobId: job.id, notes, generated, answer }))
+                  if (await run({ type: "draft", jobId: job.id, notes, generated, answer })) {
+                    posthog?.capture("application_draft_saved", { job_category: job.category });
                     setMessage("Szkic został zapisany.");
+                  }
                 }}
               >
                 Zapisz szkic

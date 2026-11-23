@@ -26,6 +26,7 @@ import { usePrototype } from "./store";
 import { currentPerson, publishedJobs } from "./model";
 import { NotFound } from "./shell";
 import { cn } from "@/lib/utils";
+import { useConfiguredPostHog } from "@/lib/posthog-logger";
 
 function LocalMap({ jobs }: { jobs: JobWithCompany[] }) {
   const [selected, setSelected] = useState<string | null>(null);
@@ -98,6 +99,7 @@ function LocalMap({ jobs }: { jobs: JobWithCompany[] }) {
 }
 export function JobsPage() {
   const { state } = usePrototype();
+  const posthog = useConfiguredPostHog();
   const person = currentPerson(state);
   const [params, setParams] = useSearchParams();
   const filters = parseJobFilters(Object.fromEntries(params));
@@ -146,6 +148,10 @@ export function JobsPage() {
       if (value) next.set(key, value);
       else next.delete(key);
     }
+    posthog?.capture("job_search_submitted", {
+      has_query: Boolean(String(data.get("query") ?? "").trim()),
+      has_location: Boolean(String(data.get("location") ?? "").trim()),
+    });
     setParams(next);
   }
   const locations = [...new Set(all.flatMap((x) => x.locations))];
@@ -382,6 +388,7 @@ export function JobPage() {
     return () => cancelAnimationFrame(frame);
   }, [location.hash, location.key, slug]);
   const { state, run } = usePrototype();
+  const posthog = useConfiguredPostHog();
   const person = currentPerson(state);
   const job = publishedJobs(state).find((x) => x.slug === slug);
   if (!job) return <NotFound />;
@@ -472,7 +479,13 @@ export function JobPage() {
                     variant="outline"
                     aria-label="Zapisz ofertę"
                     aria-pressed={saved}
-                    onClick={() => run({ type: "toggle_saved", jobId: job.id })}
+                    onClick={async () => {
+                      if (await run({ type: "toggle_saved", jobId: job.id })) {
+                        posthog?.capture(saved ? "job_unsaved" : "job_saved", {
+                          job_category: job.category,
+                        });
+                      }
+                    }}
                   >
                     <Bookmark className={cn(saved && "fill-current")} />
                     Zapisz ofertę

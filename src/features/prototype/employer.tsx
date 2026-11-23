@@ -16,6 +16,7 @@ import { currentPerson, jobSchema } from "./model";
 import { usePrototype } from "./store";
 import { Field } from "./workspace";
 import { Empty, NotFound, PageTitle } from "./shell";
+import { useConfiguredPostHog, usePrototypeLogs } from "@/lib/posthog-logger";
 
 export function EmployerJobs() {
   const { state } = usePrototype();
@@ -70,6 +71,8 @@ export function EmployerJobs() {
 export function EmployerJobEditor() {
   const { id } = useParams();
   const { state, run } = usePrototype();
+  const posthog = useConfiguredPostHog();
+  const logs = usePrototypeLogs();
   const person = currentPerson(state)!;
   const navigate = useNavigate();
   const existing = state.jobs.find((x) => x.id === id && x.companyId === person.companyId);
@@ -135,7 +138,20 @@ export function EmployerJobEditor() {
       );
       return;
     }
-    if (await run({ type: "publish", job: parsed.data })) navigate("/app/oferty");
+    if (await run({ type: "publish", job: parsed.data })) {
+      posthog?.capture("job_published", {
+        job_category: parsed.data.category,
+        remote_status: parsed.data.remoteStatus,
+        is_new_job: !existing,
+      });
+      logs.info("job published", {
+        workflow: "job_publication",
+        job_category: parsed.data.category,
+        remote_status: parsed.data.remoteStatus,
+        is_new_job: !existing,
+      });
+      navigate("/app/oferty");
+    }
   }
   return (
     <>

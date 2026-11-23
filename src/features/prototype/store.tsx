@@ -1,3 +1,4 @@
+import { useConfiguredPostHog } from "@/lib/posthog-logger";
 import {
   createContext,
   useCallback,
@@ -13,7 +14,7 @@ import {
   type ApplicationAnalysis,
   type I02Materials,
 } from "./i02-chat-contract";
-import { initialState, transition, type Action, type State } from "./model";
+import { currentPerson, initialState, transition, type Action, type State } from "./model";
 import { parseState, StorageConflictError } from "./storage";
 import { fetchI02Json } from "./i02-client";
 import {
@@ -208,6 +209,25 @@ type Store = ReturnType<typeof useStore>;
 const Context = createContext<Store | null>(null);
 export function PrototypeProvider({ children }: { children: ReactNode }) {
   const store = useStore();
+  const posthog = useConfiguredPostHog();
+  const identifiedPersonId = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!store.ready || !posthog) return;
+
+    const person = currentPerson(store.state);
+    if (!person) {
+      if (identifiedPersonId.current) posthog.reset();
+      identifiedPersonId.current = null;
+      return;
+    }
+    if (identifiedPersonId.current === person.id) return;
+
+    if (identifiedPersonId.current) posthog.reset();
+    posthog.identify(person.id, { name: person.name, role: person.role });
+    identifiedPersonId.current = person.id;
+  }, [posthog, store.ready, store.state]);
+
   if (!store.ready)
     return (
       <p role="status" className="prototype-notice">

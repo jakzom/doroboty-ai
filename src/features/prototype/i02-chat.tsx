@@ -7,6 +7,7 @@ import {
   type FormEvent,
   type SetStateAction,
 } from "react";
+import { useConfiguredPostHog } from "@/lib/posthog-logger";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -38,6 +39,7 @@ export function I02Chat({
   setQuestion: Dispatch<SetStateAction<string>>;
   headingId: string;
 }) {
+  const posthog = useConfiguredPostHog();
   const [availability, setAvailability] = useState<"checking" | "ready" | "unavailable">(
     import.meta.env.I02_LOCAL_DEV === "enabled" ? "checking" : "unavailable",
   );
@@ -112,6 +114,9 @@ export function I02Chat({
       const reply = parseI02Reply(response.data, sources);
       if (controller.signal.aborted) return;
       setTurns((current) => [...current, { question: parsed.data, reply }]);
+      posthog?.capture("application_ai_question_submitted", {
+        has_application_materials: Boolean(materials),
+      });
       setQuestion((current) => (current === question ? "" : current));
     } catch {
       if (!controller.signal.aborted)

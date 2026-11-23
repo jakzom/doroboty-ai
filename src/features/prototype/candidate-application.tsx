@@ -3,9 +3,12 @@ import { Button } from "@/components/ui/button";
 import { ApplicationRecord } from "./application-record";
 import type { Application } from "./model";
 import { usePrototype } from "./store";
+import { useConfiguredPostHog, usePrototypeLogs } from "@/lib/posthog-logger";
 
 export function CandidateApplication({ application }: { application: Application }) {
   const { state, run } = usePrototype();
+  const posthog = useConfiguredPostHog();
+  const logs = usePrototypeLogs();
   const [confirming, setConfirming] = useState(false);
   const [announcement, setAnnouncement] = useState("");
   const statusRef = useRef<HTMLSpanElement>(null);
@@ -45,6 +48,13 @@ export function CandidateApplication({ application }: { application: Application
                   variant="destructive"
                   onClick={async () => {
                     if (await run({ type: "withdraw", applicationId: application.id })) {
+                      posthog?.capture("application_withdrawn", {
+                        application_stage: application.stage,
+                      });
+                      logs.info("application withdrawn", {
+                        workflow: "application_withdrawal",
+                        application_stage: application.stage,
+                      });
                       focusAfter.current = "status";
                       setConfirming(false);
                       setAnnouncement("Aplikacja została wycofana.");
