@@ -7,9 +7,9 @@ afterEach(() => {
   vi.unstubAllEnvs();
 });
 
-describe("optional local I02 requests", () => {
+describe("optional same-origin I02 requests", () => {
   it("never contacts an endpoint in a static build, even with supplied materials", async () => {
-    vi.stubEnv("I02_LOCAL_DEV", "disabled");
+    vi.stubEnv("I02_API_ENABLED", "disabled");
     const request = vi.fn();
     vi.stubGlobal("fetch", request);
     for (const path of ["api/i02/chat", "api/i02/analysis"]) {
@@ -25,7 +25,7 @@ describe("optional local I02 requests", () => {
   });
 
   it("times out a stalled connection and releases its timer for a deliberate retry", async () => {
-    vi.stubEnv("I02_LOCAL_DEV", "enabled");
+    vi.stubEnv("I02_API_ENABLED", "enabled");
     vi.useFakeTimers();
     const request = vi.fn<typeof fetch>().mockImplementation(
       (_url, options) =>
@@ -53,7 +53,7 @@ describe("optional local I02 requests", () => {
   });
 
   it("also bounds waiting for the response body and respects cancellation", async () => {
-    vi.stubEnv("I02_LOCAL_DEV", "enabled");
+    vi.stubEnv("I02_API_ENABLED", "enabled");
     vi.useFakeTimers();
     const request = vi.fn<typeof fetch>().mockImplementation(async (_url, options) => {
       const stream = new ReadableStream({

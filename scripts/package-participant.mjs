@@ -18,7 +18,9 @@ if (fs.existsSync(target) && fs.readdirSync(target).length)
 verifyPacket(root);
 const entries = [
   "src",
-  "server/i02-chat.ts",
+  "server",
+  "api",
+  "vercel.json",
   "public",
   "tests",
   "package.json",
@@ -44,6 +46,7 @@ const entries = [
   "README.md",
   "scripts/bootstrap",
   "scripts/verify",
+  "scripts/verify-hosted.mjs",
   "scripts/package-participant.mjs",
   "scripts/verify-participant.mjs",
   "docs/architecture.md",

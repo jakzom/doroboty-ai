@@ -28,7 +28,7 @@ The existing success-only ConfettiBurst remains a host workflow extension: clean
 - Use Base UI focus containment/restoration, named dialogs, labels, roving tabs and native constraints. Desktop advanced filters use a disclosure; mobile uses the existing full-height dialog.
 - Keep category meanings separate from status, error and MatchScore. Disabled actions must remain disabled and readable; salary/tags remain facts.
 - Preserve persona simulation, ownership projections, local drafts/submissions, CV snapshots, notes and allowed stage transitions. Candidate history must not expose recruiter notes. Never replace domain state with source-example jobs.
-- Keep stage-1 async persistence, conflict recovery, dev-only provider boundary, timeout and cancellation behavior. Announce success after domain operations resolve.
+- Keep stage-1 async persistence, conflict recovery, offline-by-default provider boundary and explicitly enabled hosted AI, timeout and cancellation behavior. Announce success after domain operations resolve.
 - Do not insert fake preview/approval steps to mimic the reference's simpler flow. Existing human editing/approval, actual errors and retries govern behavior.
 
 No visual migration establishes CI, publishing, production security or public-service availability. Record actual gate and browser evidence in the task.

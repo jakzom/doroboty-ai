@@ -133,6 +133,11 @@ export function PrivacyPage() {
           OpenAI otrzymuje także pytanie i kontekst rozmowy. Używaj wyłącznie fikcyjnych danych.
         </p>
         <p>
+          Jeśli analityka jest włączona, PostHog otrzymuje anonimowe odsłony ekranów i zdarzenia
+          użycia, np. wysłanie aplikacji. Nie przesyłamy treści CV, odpowiedzi, pytań ani notatek i
+          nie nagrywamy sesji. Wybrana osoba jest oznaczeniem scenariusza, a nie Twoją tożsamością.
+        </p>
+        <p>
           Możesz usunąć zmiany przyciskiem „Resetuj scenariusz” w ustawieniach lub wyczyścić dane
           witryny w przeglądarce. Hosting może prowadzić własne logi dostępu.
         </p>

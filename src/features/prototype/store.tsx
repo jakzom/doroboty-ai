@@ -210,23 +210,18 @@ const Context = createContext<Store | null>(null);
 export function PrototypeProvider({ children }: { children: ReactNode }) {
   const store = useStore();
   const posthog = useConfiguredPostHog();
-  const identifiedPersonId = useRef<string | null>(null);
-
+  const person = currentPerson(store.state);
+  const personaId = person?.id;
+  const personaRole = person?.role;
   useEffect(() => {
     if (!store.ready || !posthog) return;
-
-    const person = currentPerson(store.state);
-    if (!person) {
-      if (identifiedPersonId.current) posthog.reset();
-      identifiedPersonId.current = null;
-      return;
+    if (personaId) {
+      posthog.register({ persona_id: personaId, persona_role: personaRole });
+    } else {
+      posthog.unregister("persona_id");
+      posthog.unregister("persona_role");
     }
-    if (identifiedPersonId.current === person.id) return;
-
-    if (identifiedPersonId.current) posthog.reset();
-    posthog.identify(person.id, { name: person.name, role: person.role });
-    identifiedPersonId.current = person.id;
-  }, [posthog, store.ready, store.state]);
+  }, [posthog, store.ready, personaId, personaRole]);
 
   if (!store.ready)
     return (
