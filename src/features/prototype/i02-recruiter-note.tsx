@@ -1,4 +1,5 @@
 import { useId, useState, type FormEvent } from "react";
+import { useConfiguredPostHog } from "@/lib/posthog-logger";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -12,6 +13,7 @@ import { usePrototype } from "./store";
 
 export function I02RecruiterNote({ application }: { application: Application }) {
   const { state, run, issue, blocked } = usePrototype();
+  const posthog = useConfiguredPostHog();
   const saved = ownRecruiterNote(state, application);
   const [step, setStep] = useState<string>(saved?.step ?? "");
   const [rationale, setRationale] = useState(saved?.rationale ?? "");
@@ -34,6 +36,7 @@ export function I02RecruiterNote({ application }: { application: Application }) 
     if (
       await run({ type: "save_recruiter_note", applicationId: application.id, value: parsed.data })
     ) {
+      posthog?.capture("recruiter_note_saved", { proposed_step: parsed.data.step });
       setRationale(parsed.data.rationale);
       setConfirmed(true);
     }

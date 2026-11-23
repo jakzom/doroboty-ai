@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useConfiguredPostHog } from "@/lib/posthog-logger";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ApplicationRecord } from "./application-record";
@@ -10,6 +11,7 @@ import { usePrototype } from "./store";
 
 export function RecruitingApplication({ application }: { application: Application }) {
   const { state, run } = usePrototype();
+  const posthog = useConfiguredPostHog();
   const [note, setNote] = useState("");
   const [announcement, setAnnouncement] = useState("");
   const statusRef = useRef<HTMLSpanElement>(null);
@@ -57,6 +59,10 @@ export function RecruitingApplication({ application }: { application: Applicatio
                       if (
                         await run({ type: "stage", applicationId: application.id, stage, note })
                       ) {
+                        posthog?.capture("application_stage_updated", {
+                          previous_stage: application.stage,
+                          next_stage: stage,
+                        });
                         setNote("");
                         setAnnouncement(`Zapisano etap: ${stageLabels[stage]}.`);
                         pendingFocus.current = true;
