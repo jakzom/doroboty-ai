@@ -21,7 +21,7 @@ A participant can start with Node.js 24 and npm, extend the prototype and test a
 
 ## Boundaries
 
-A shareable static build contains no secrets and provides no confidentiality between roles. Hosting is optional and provider-independent. An explicitly configured Vercel deployment can add public server-only AI functions with an IP request quota; portable static builds remain offline by default. Optional PostHog telemetry requires both public configuration values and captures only normalized pageviews and bounded workflow metadata, excluding form and application text.
+A shareable static build contains no secrets and provides no confidentiality between roles. Hosting is optional and provider-independent. An explicitly configured Vercel deployment can add public server-only AI functions with an IP request quota; portable static builds remain offline by default. Optional PostHog telemetry requires both public configuration values and captures normalized pageviews, bounded workflow metadata and masked clicks on reviewed public controls. Private views, forms and application text are excluded from Autocapture.
 
 ## Learning
 

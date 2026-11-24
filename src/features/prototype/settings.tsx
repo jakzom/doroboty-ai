@@ -134,8 +134,11 @@ export function PrivacyPage() {
         </p>
         <p>
           Jeśli analityka jest włączona, PostHog otrzymuje anonimowe odsłony ekranów i zdarzenia
-          użycia, np. wysłanie aplikacji. Nie przesyłamy treści CV, odpowiedzi, pytań ani notatek i
-          nie nagrywamy sesji. Wybrana osoba jest oznaczeniem scenariusza, a nie Twoją tożsamością.
+          użycia, np. wysłanie aplikacji, oraz kliknięcia w wybrane publiczne linki i przyciski.
+          Automatyczne zbieranie kliknięć pomija formularze, pola edycji, okna dialogowe i cały
+          panel użytkownika. Nie przesyłamy tekstów ani atrybutów klikanych elementów, treści CV,
+          odpowiedzi, pytań ani notatek i nie nagrywamy sesji. Wybrana osoba jest oznaczeniem
+          scenariusza, a nie Twoją tożsamością.
         </p>
         <p>
           Możesz usunąć zmiany przyciskiem „Resetuj scenariusz” w ustawieniach lub wyczyścić dane
